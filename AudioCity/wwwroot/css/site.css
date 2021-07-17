@@ -5,6 +5,10 @@ for details on configuring this project to bundle and minify static web assets. 
     box-sizing: border-box;
 }
 
+*:focus {
+    outline:none;
+}
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -17,9 +21,11 @@ a {
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1DBF73;
+    border-color: #1861ac;
+    width:100%;
+    margin-top:20px;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -63,8 +69,9 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    font-family: 'Open Sans', sans-serif;
 }
 .footer {
   position: absolute;
@@ -167,3 +174,156 @@ body {
     top: 50%;
     left: 50%
 }
+
+.search-container {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    margin-left:0;
+    margin-right:0;
+    background-color:#FE2C54;
+}
+
+.music-icon {
+    position:absolute;
+    left:0;
+    right:0;
+    top:50px;
+    margin-left:auto;
+    margin-right:auto;
+    width:90px;
+    height:90px;
+}
+
+.search-form {
+    position:absolute;
+    margin-right:auto;
+    margin-left:auto;
+    left:0;
+    right:0;
+    top: 200px;
+    width: 80%;
+    height:50px;
+    background-color:white;
+    border-radius:10px 10px 10px 10px;
+}
+
+.search-btn-icon {
+    background-color:white;
+    margin-top: 0.6em;
+    margin-left:0.7em;
+}
+
+.search-btn {
+    position:absolute;
+    color:white;
+    height:100%;
+    width:15%;
+    background-color:#1DBF73;
+    padding:0;
+    right:0;
+    border:none;
+    border-radius: 0px 10px 10px 0px;
+}
+
+.search-btn-text-input {
+    position:absolute;
+    height:100%;
+    width:80%;
+    border:none;
+    padding-left:15px;
+}
+
+.homepage-desc-1-container {
+    position: relative;
+    width: 100%;
+    height: 650px;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 2em;
+    padding-bottom:0;
+}
+
+.homepage-desc-1-img {
+    position:absolute;
+    width:90%;
+    height:60%;
+}
+
+.homepage-desc-1-li-title {
+    position: absolute;
+    padding-top:3px;
+    display: inline-block;
+    margin-left: 5px;
+    margin-bottom: 0;
+}
+
+.homepage-desc-2-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom:150px;
+    padding: 2em;
+    background-image:url('../static/take-photo-wallpaper.jpg');
+    background-size:cover;
+    background-position:center;
+}
+
+.homepage-desc-2-text-overlay {
+    margin:15px;
+    border-radius:15px 15px 15px 15px;
+    background-color:rgba(105,105,105, 0.3);
+    padding: 25px;
+}
+
+.btn-get-started {
+    color: white;
+    height: 50px;
+    margin-top:20px;
+    width: 200px;
+    background-color: #1DBF73;
+    padding: 0;
+    border: none;
+    border-radius: 10px 10px 10px 10px;
+    font-weight:bold;
+}
+
+.register-form-container {
+    position:relative;
+    min-height:900px;
+    width:100%;
+    background-image:url(../static/musicInstruments.png);
+    background-size:cover;
+    background-position:center;
+}
+
+.register-form {
+    position: absolute;
+    margin-right: auto;
+    margin-left: auto;
+    left: 0;
+    right: 0;
+    top: 60px;
+    width: 500px;
+    padding: 2em;
+    border-style:solid;
+    border-radius: 15px 15px 15px 15px;
+    border-width:thin;
+    background-color:white;
+    z-index:100;
+}
+
+.login-form {
+    padding:3em;
+}
+
+.login-page-background {
+    background-image: url('../static/loginWallpaper.jpg');
+    background-size:cover;
+    background-position:center;
+    height:800px;
+}
+
+
