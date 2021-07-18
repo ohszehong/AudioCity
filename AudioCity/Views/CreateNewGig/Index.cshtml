@@ -1,0 +1,66 @@
+﻿@model AudioCity.Models.Gig;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="create-new-gig-container">
+    <div class="row" style="margin:0;">
+        <div class="col-12" id="create-new-gig-form-col" style="height:900px;">
+            <div class="register-form" id="form-section">
+                <form asp-controller="CreateNewGig" asp-action="Index" method="post" enctype="multipart/form-data">
+                    <h4 style="text-align:center;font-weight:bold;">Create New Gig</h4>
+                    <hr />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Title"></label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description"></label>
+                        <textarea asp-for="Description" class="form-control"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EstimatedDeliveryDays"></label>
+                        <input min="1" step="1" asp-for="EstimatedDeliveryDays" class="form-control" />
+                        <span asp-validation-for="EstimatedDeliveryDays" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Price"></label>
+                        <input asp-for="Price" class="form-control" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Thumbnail"></label>
+                        <input type="file" accept="image/*" asp-for="Thumbnail" class="form-control" />
+                        <span asp-validation-for="Thumbnail" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Portfolio (video)</label>
+                        <input type="file" accept="video/*" class="form-control" name="PortfolioVideo"/>
+                        <span asp-validation-for="PortfolioFilePath" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Category"></label>
+                        <select asp-for="Category" class="form-control">
+                            <option value="Classical">Classical</option>
+                            <option value="EDM">EDM</option>
+                            <option value="Hip-hop">Hip-hop</option>
+                            <option value="Jazz">Jazz</option>
+                            <option value="Metal">Metal</option>
+                            <option value="Pop">Pop</option>
+                            <option value="Rap">Rap</option>
+                            <option value="Techno">Techno</option>
+                            <option value="Vfx">Vfx</option>
+                        </select>
+                        <span asp-validation-for="Category" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Preview</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -292,7 +292,7 @@ body {
 
 .register-form-container {
     position:relative;
-    min-height:900px;
+    min-height:1100px;
     width:100%;
     background-image:url(../static/musicInstruments.png);
     background-size:cover;
@@ -326,4 +326,105 @@ body {
     height:800px;
 }
 
+.seller-dashboard-container {
+    position: relative;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    height:950px;
+    width:100%;
+    margin:0;
+}
 
+.seller-dashboard-side-panel {
+    position: relative;
+    margin: 15px;
+    margin-left: 0;
+    margin-right: 0;
+    height: 600px;
+    box-shadow: 20px 20px rgba(0,0,0,.15);
+}
+
+
+.seller-dashboard-content-panel {
+    position:relative;
+    margin:0;
+    height:950px;
+    background-color:rgba(0,0,0,.03);
+}
+
+.profile-picture {
+    position: relative;
+    margin-top: 20px;
+    margin-right:auto;
+    margin-left:auto;
+    left:0;
+    right:0;
+    height:200px;
+    width:200px;
+    border-radius:100px;
+    background-image:url('../static/profile-picture-example.jfif');
+    background-size:cover;
+    background-position:center;
+}
+
+.seller-info-container {
+    position:relative;
+    margin-top:30px;
+    left:0;
+    right:0;
+    margin-left:auto;
+    margin-right:auto;
+    height:150px;
+    width:100%;
+    padding:25px;
+}
+
+.seller-dashboard-navbar {
+    border-style:solid;
+    border-width:2px;
+    border-color:dimgray;
+    margin-left:50px;
+    margin-top:50px;
+}
+
+.active-gigs-container {
+    position:relative;
+    height:750px;
+    width:95%;
+    margin-left:50px;
+    margin-top:35px;
+    padding:25px;
+}
+
+.active-gigs-container a {
+    color:inherit;
+}
+
+.active-gigs-card {
+    position: relative;
+    height: 300px;
+    box-shadow: 3px 3px rgba(0,0,0,.15);
+    transition: all .4s ease;
+}
+
+.active-gigs-card:hover {
+    border-radius: 0% 0% 50% 50% / 0% 0% 5% 5%;
+    box-shadow: 5px 5px rgba(0,0,0,.25);
+    cursor:pointer;
+}
+
+.active-gigs-card:not(:last-child) {
+    margin-right:25px;
+}
+
+.create-new-gig-container {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1200px;
+}

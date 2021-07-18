@@ -4,4 +4,67 @@
 @{
 }
 
-<h1>Welcome Seller.</h1>
+<div class="row seller-dashboard-container">
+    <partial name="_SellerDashboardPartial" />
+    <div class="col-md-9 seller-dashboard-content-panel">
+        <nav class="navbar navbar-expand-lg navbar-light seller-dashboard-navbar">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item partial-nav">
+                        <a class="nav-link" asp-controller="SellerDashboard" asp-action="Index" asp-route-Id="@ViewBag.UserId" asp-route-PartialPage="_ActiveGigsPartial">ACTIVE GIGS</a>
+                    </li>
+                    <li class="nav-item partial-nav">
+                        <a class="nav-link" asp-controller="SellerDashboard" asp-action="Index" asp-route-Id="@ViewBag.UserId" asp-route-PartialPage="_NewOrdersPartial">NEW ORDERS</a>
+                    </li>
+                    <li class="nav-item partial-nav">
+                        <a class="nav-link" asp-controller="SellerDashboard" asp-action="Index" asp-route-Id="@ViewBag.UserId" asp-route-PartialPage="_OnGoingOrdersPartial">ONGOING ORDERS</a>
+                    </li>
+                    <li class="nav-item partial-nav">
+                        <a class="nav-link" asp-controller="SellerDashboard" asp-action="Index" asp-route-Id="@ViewBag.UserId" asp-route-PartialPage="_OrderHistoryPartial">ORDER HISTORY</a>
+                    </li>
+                    <li class="nav-item partial-nav">
+                        <a class="nav-link" asp-controller="SellerDashboard" asp-action="Index" asp-route-Id="@ViewBag.UserId" asp-route-PartialPage="_RevenuesPartial">REVENUES</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+       <partial name="@ViewBag.PartialPage" />
+    </div>
+</div>
+
+<script>
+    var navItemList = document.getElementsByClassName("partial-nav");
+    var navTotalItems = navItemList.length;
+
+    if ('@ViewBag.PartialPage' === "_ActiveGigsPartial") {
+        for (i = 0; i < navItemList.length; i++) {
+            navItemList[i].classList.remove("active");
+        }
+        navItemList[0].classList.add("active");
+    }
+    else if ('@ViewBag.PartialPage' === "_NewOrdersPartial") {
+        for (i = 0; i < navItemList.length; i++) {
+            navItemList[i].classList.remove("active");
+        }
+        navItemList[1].classList.add("active");
+    }
+    else if ('@ViewBag.PartialPage' === "_OnGoingOrdersPartial") {
+        for (i = 0; i < navItemList.length; i++) {
+            navItemList[i].classList.remove("active");
+        }
+        navItemList[2].classList.add("active");
+    }
+    else if ('@ViewBag.PartialPage' === "_OrderHistoryPartial") {
+        for (i = 0; i < navItemList.length; i++) {
+            navItemList[i].classList.remove("active");
+        }
+        navItemList[3].classList.add("active");
+    }
+    else if ('@ViewBag.PartialPage' === "_RevenuesPartial") {
+        for (i = 0; i < navItemList.length; i++) {
+            navItemList[i].classList.remove("active");
+        }
+        navItemList[4].classList.add("active");
+    }
+</script>
+    
