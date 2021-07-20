@@ -61,6 +61,26 @@ namespace AudioCity.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            [StringLength(200, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 5)]
+            [Display(Name = "Full name")]
+            public string FullName { get; set; }
+
+            [Required]
+            [Display(Name = "Date of birth")]
+            [DataType(DataType.Date)]
+            public DateTime Dob { get; set; }
+
+            [Required]
+            [Display(Name = "Contact no.")]
+            [RegularExpression("^(01)[0-46-9]*[0-9]{7,8}$", ErrorMessage = "Invalid malaysia phone number.")]
+            public string ContactNo { get; set; }
+
+            [Required]
+            [Display(Name = "Register as")]
+            public string Role { get; set; }
+
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -75,11 +95,21 @@ namespace AudioCity.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new AudioCityUser { UserName = Input.Email, Email = Input.Email };
+                var user = new AudioCityUser { UserName = Input.Email, Email = Input.Email, FullName = Input.FullName, Dob = Input.Dob, ContactNo = Input.ContactNo, Role = Input.Role };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    if (user.Role == "Seller")
+                    {
+                        await _userManager.AddToRoleAsync(user, Roles.Seller.ToString());
+                    }
+
+                    else if (user.Role == "Customer")
+                    {
+                        await _userManager.AddToRoleAsync(user, Roles.Customer.ToString());
+                    }
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

@@ -21,7 +21,8 @@ namespace AudioCity.Areas.Identity
                         context.Configuration.GetConnectionString("AudioCityContextConnection")));
 
                 services.AddDefaultIdentity<AudioCityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<AudioCityContext>();
+                .AddRoles<IdentityRole>()    
+                .AddEntityFrameworkStores<AudioCityContext>();
             });
         }
     }

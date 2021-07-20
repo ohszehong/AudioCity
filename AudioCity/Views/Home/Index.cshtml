@@ -2,7 +2,118 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<!-- slide show -->
+<div class="slideshow">
+
+    <div class="text-center title">
+        <h1 style="font-size:102px">Welcome to AudioCity</h1>
+        <p>Malaysia top websites for music freelancing.</p>
+    </div>
+
+
+    <div class="slide slide-1"></div>
+    <div class="slide slide-2"></div>
+    <div class="slide slide-3"></div>
+    <div class="slide slide-4"></div>
 </div>
+
+<div class="search-container">
+<img class="music-icon" src="~/static/music-note.png"/>
+<form class="search-form">
+    <span>
+    <img src="~/static/search.png" width="32" height="32" class="search-btn-icon"/>
+    </span>
+
+    <span>
+        <input type="text" class="search-btn-text-input" placeholder='Try "Vfx for game"'/>
+    </span>
+   
+    <span>
+        <button class="search-btn" asp-controller="FreelanceList" asp-action="Index">
+            Search
+        </button>
+    </span>
+</form>
+</div>
+
+
+<div class="homepage-desc-1-container row">
+    <div class="col-7">
+        <h1>
+            A whole new place for music artists to sell their talents.
+        </h1>
+
+        <ul style="list-style-type:none;margin:0;padding:0;">
+            <li style="margin-top:20px">
+                <span>
+                    <img src="~/static/check.png" width="32" height="32" />
+                    <h5 class="homepage-desc-1-li-title">The best for every budget</h5>
+                </span>
+            </li>
+            <li style="margin-top: 15px; margin-bottom: 25px">
+                <span style="color:#62646a; font-size:18px">
+                    Find high-quality services at every price point. No hourly rates, just project-based pricing.
+                </span>
+            </li>
+            <li style="margin-top:20px">
+                <span>
+                    <img src="~/static/check.png" width="32" height="32" />
+                    <h5 class="homepage-desc-1-li-title">Quality work done quickly</h5>
+                </span>
+            </li>
+            <li style="margin-top:15px;margin-bottom:25px;">
+                <span style="color:#62646a; font-size:18px;">
+                    Find the right freelancer to begin working on your project at your fingertips.
+                </span>
+            </li>
+            <li style="margin-top:20px">
+                <span>
+                    <img src="~/static/check.png" width="32" height="32" />
+                    <h5 class="homepage-desc-1-li-title">Protected payments, safety assured</h5>
+                </span>
+            </li>
+            <li style="margin-top: 15px; margin-bottom: 25px">
+                <span style="color:#62646a; font-size:18px">
+                    Always know what you'll pay in advance. Your payment isn't released until you approve the work.
+                </span>
+            </li>
+            <li style="margin-top:20px">
+                <span>
+                    <img src="~/static/check.png" width="32" height="32" />
+                    <h5 class="homepage-desc-1-li-title">24/7 support</h5>
+                </span>
+            </li>
+            <li style="margin-top: 15px; margin-bottom: 25px">
+                <span style="color:#62646a; font-size:18px">
+                   Our support team is always ready to serve you at anytime. 
+                </span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="col-5" style="position:relative;">
+      <img class="homepage-desc-1-img" src="~/static/freelance.jfif"/>
+    </div>
+</div>
+
+<div class="homepage-desc-2-container row">
+    <div class="col-8">
+
+    </div>
+    <div class="col-4">
+        <div class="homepage-desc-2-text-overlay">
+            <h1 style="color:white;opacity:1!important">Find the talents needed to get your business growing.</h1>
+            
+            <form>
+                <button class="btn-get-started" asp-controller="FreelanceList" asp-action="Index">
+                    Get Started
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
