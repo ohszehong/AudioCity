@@ -445,6 +445,53 @@ body {
     height: 1200px;
 }
 
+.admin-panel {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 20px;
+    padding: 10px;
+    background-color: #F6F6F6;
+    border: 2px solid lightgrey;
+}
+
+.admin-panel-header {
+    border-bottom: 2px solid lightgrey;
+    margin: 0px;
+}
+
+table.admin-table {
+    width: 100%;
+    border: 2px black;
+    background-color: white;
+    box-shadow: 0px 0px 20px rgba(0,0,0,0.10), 0px 10px 20px rgba(0,0,0,0.05), 0px 20px 20px rgba(0,0,0,0.05), 0px 30px 20px rgba(0,0,0,0.05);
+}
+
+td.admin-table {
+    border: 2px solid black;
+    text-align: center;
+    padding: 15px;
+}
+
+th.admin-table {
+    border: 2px solid black;
+    text-align: center;
+    padding: 15px;
+    background-color: #1DBF73;
+    color: #fff;
+}
+
+tr.admin-table:nth-child(even) {
+    background-color: #F6F6F6;
+}
+
+tr.admin-table:hover {
+    background-color: #FE2C54;
+    color: #fff;
+}
+
 .gig-detail-profile-picture-small {
     height: 45px;
     width: 45px;

@@ -1,0 +1,35 @@
+﻿@model List<AudioCity.Models.Order>
+<div>
+    <table class="admin-table">
+        <thead>
+            <tr class="admin-table-head">
+                <th class="admin-table">Order ID</th>
+                <th class="admin-table">Order Description</th>
+                <th class="admin-table">Seller</th>
+                <th class="admin-table">Buyer</th>
+                <th class="admin-table">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() != 0)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr class="admin-table">
+                        <td class="admin-table">@item.OrderID</td>
+                        <td class="admin-table">@item.OrderDesc</td>
+                        <td class="admin-table">@item.Seller</td>
+                        <td class="admin-table">@item.Buyer</td>
+                        <td class="admin-table">@item.Price</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr class="admin-table">
+                    <td colspan="5" class="admin-table">No Record Found</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
