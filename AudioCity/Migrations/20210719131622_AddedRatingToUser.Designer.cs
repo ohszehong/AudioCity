@@ -4,14 +4,16 @@ using AudioCity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AudioCity.Migrations
 {
     [DbContext(typeof(AudioCityContext))]
-    partial class AudioCityContextModelSnapshot : ModelSnapshot
+    [Migration("20210719131622_AddedRatingToUser")]
+    partial class AddedRatingToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

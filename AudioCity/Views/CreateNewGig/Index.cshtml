@@ -1,10 +1,11 @@
-﻿@model AudioCity.Models.Gig;
+﻿@model AudioCity.Models.GigViewModel;
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 }
 
+@Html.AntiForgeryToken()
 <div class="create-new-gig-container">
     <div class="row" style="margin:0;">
         <div class="col-12" id="create-new-gig-form-col" style="height:900px;">
@@ -35,13 +36,13 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Thumbnail"></label>
-                        <input type="file" accept="image/*" asp-for="Thumbnail" class="form-control" />
+                        <input type="file" accept="image/*" asp-for="Thumbnail" name="Thumbnail" class="form-control" />
                         <span asp-validation-for="Thumbnail" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label>Portfolio (video)</label>
-                        <input type="file" accept="video/*" class="form-control" name="PortfolioVideo"/>
-                        <span asp-validation-for="PortfolioFilePath" class="text-danger"></span>
+                        <label asp-for="Portfolio"></label>
+                        <input type="file" accept="video/*" asp-for="Portfolio" name="Portfolio" class="form-control"/>
+                        <span asp-validation-for="Portfolio" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Category"></label>
