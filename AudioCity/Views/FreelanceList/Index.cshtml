@@ -1,7 +1,64 @@
-﻿@*
+﻿@model List<GigDetailViewModel>;
+
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 }
 
-<h1>Hello World.</h1>
+<div style="height:1200px;padding:50px;">
+    <h1>Welcome to AudioCity</h1>
+    <h5 style="color: #62646a;">Get someone that is talented to grow your business.</h5>
+
+    <form class="row">
+        <div class="freelancelist-search-input-container col-md-9">
+            <img src="~/static/search.png" height="24" width="24" />
+            <input type="text" style="border:none;width:90%;" placeholder='Try "Jazz Music"' />
+        </div>
+        <button class="col-md-2 btn btn-primary" style="height:50px;margin:0;margin-top:15px;margin-left:10px;">Search</button>
+
+        <select class="form-control col-md-2" style="margin-top:15px;margin-left:15px;">
+            <option value="" selected>All Category</option>
+            <option value="Classical">Classical</option>
+            <option value="EDM">EDM</option>
+            <option value="Hip-hop">Hip-hop</option>
+            <option value="Jazz">Jazz</option>
+            <option value="Metal">Metal</option>
+            <option value="Pop">Pop</option>
+            <option value="Rap">Rap</option>
+            <option value="Techno">Techno</option>
+            <option value="Vfx">Vfx</option>
+        </select>
+
+        <input type="number" class="form-control col-md-2" placeholder="Min Budget (RM)" style="margin-top:15px;margin-left:15px;" />
+
+        <input type="number" class="form-control col-md-2" placeholder="Max Budget (RM)" style="margin-top:15px;margin-left:15px;" />
+
+        <input type="number" class="form-control col-md-2" placeholder="Delivery Days e.g. 2" style="margin-top:15px;margin-left:15px;" />
+
+    </form>
+
+    <div class="row freelancelist-card-container" style="margin-top:40px;width:80%;">
+        @foreach (GigDetailViewModel GigDetailViewModel in Model)
+        {
+            <a class="col-lg-3 col-md-6" asp-controller="FreelanceList" asp-action="GigDetail" asp-route-GigId="@GigDetailViewModel.Gig.Id">
+                <div class="active-gigs-card" style="padding:0;height:340px;">
+                    <img src="@GigDetailViewModel.Thumbnail.Uri" height="150" style="position:relative;width:100%" />
+                    <div style="padding:15px;padding-bottom:0;font-weight:600;">
+                        <img src="~/static/profile-picture-example.jfif" style="width:28px;height:28px;border-radius:20px;"/>
+                        &nbsp;
+                        @GigDetailViewModel.User.FullName
+                    </div>
+                    <div style="height:100px;padding-left:15px;padding-top:15px;">@GigDetailViewModel.Gig.Title</div>
+                    <div style="height:50px;padding-left:10px;text-align:end;padding-top:15px;padding-right:8px;">
+                        <span style="color:#FE2C54">Cost at</span>
+                        <span style="color:#FE2C54;font-weight:bold;font-size:20px;">RM@(GigDetailViewModel.Gig.Price)</span>
+                    </div>
+                </div>
+            </a>
+        }
+
+    </div>
+</div>
+
+
