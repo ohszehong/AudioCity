@@ -1,7 +1,84 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+﻿@model Tuple<List<AudioCity.Models.Order>, List<AudioCity.Models.Order>>
+@*
+For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 }
 
-<h1>Welcome Admin.</h1>
+<div class="admin-panel">
+    <div class="admin-panel-header">
+        <h3 style="margin:0px">Pending Orders</h3>
+    </div>
+    <br />
+    <div>
+        <div class="form-inline" style="float: right;">
+            <label>Search :</label> &nbsp;
+            <input type="text" id="PendingSearch" />
+        </div>
+        <br />
+        <br />
+        <table class="admin-table">
+            <thead>
+                <tr class="admin-table-head">
+                    <th class="admin-table">Order ID</th>
+                    <th class="admin-table">Order Description</th>
+                    <th class="admin-table">Seller</th>
+                    <th class="admin-table">Buyer</th>
+                    <th class="admin-table">Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Item1)
+                {
+                    <tr class="admin-table">
+                        <td class="admin-table">@item.OrderID</td>
+                        <td class="admin-table">@item.OrderDesc</td>
+                        <td class="admin-table">@item.Seller</td>
+                        <td class="admin-table">@item.Buyer</td>
+                        <td class="admin-table">@item.Price</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="admin-panel">
+    <div class="admin-panel-header">
+        <h3 style="margin:0px">Completed Orders</h3>
+    </div>
+    <br />
+    <div>
+        <div class="form-inline" style="float: right;">
+            <label>Search :</label> &nbsp;
+            <input type="text" id="CompleteSearch" />
+        </div>
+        <br />
+        <br />
+        <table class="admin-table">
+            <thead>
+                <tr class="admin-table-head">
+                    <th class="admin-table">Order ID</th>
+                    <th class="admin-table">Order Description</th>
+                    <th class="admin-table">Seller</th>
+                    <th class="admin-table">Buyer</th>
+                    <th class="admin-table">Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Item2)
+                {
+                    <tr class="admin-table">
+                        <td class="admin-table">@item.OrderID</td>
+                        <td class="admin-table">@item.OrderDesc</td>
+                        <td class="admin-table">@item.Seller</td>
+                        <td class="admin-table">@item.Buyer</td>
+                        <td class="admin-table">@item.Price</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<br />
+<br />
