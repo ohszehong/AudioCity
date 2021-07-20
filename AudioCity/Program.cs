@@ -27,6 +27,9 @@ namespace AudioCity
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
                     await ContextRoles.SeedRolesAsync(userManager, roleManager);
                     await ContextSeed.SeedAdminAsync(userManager, roleManager);
+
+                    //create blob container on startup.
+                    ConfigureAudioCityAzureBlob.CreateBlobContainer();
                 }
                 catch (Exception ex)
                 {
