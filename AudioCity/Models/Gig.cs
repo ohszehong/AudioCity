@@ -23,12 +23,13 @@ namespace AudioCity.Models
 
         public string Category { get; set; }
 
-        public string Thumbnail { get; set; }
+        public string ThumbnailFilePath { get; set; }
 
         public string PortfolioFilePath { get; set; }
 
-
         public DateTime PublishedOn { get; set; }
+
+        public string ArtistName { get; set; }
 
     }
 }

@@ -12,8 +12,8 @@ namespace AudioCity.Models
     {
 
         //auto generate unique id 
-        [ScaffoldColumn(false)]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        /*[ScaffoldColumn(false)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]*/
         public string Id { get; set; }
 
         [Required(ErrorMessage = "{0} is required.")]

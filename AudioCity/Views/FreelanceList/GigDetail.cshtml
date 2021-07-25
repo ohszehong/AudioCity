@@ -6,6 +6,7 @@
 @{
 }
 
+
 <div class="row" style="height:1500px;padding:70px;margin:0;padding-right:45px;">
     <div class="col-lg-8 gig-detail-left-panel">
         <h1 style="font-weight:bold;">
@@ -34,21 +35,18 @@
         <div style="font-size:20px;color:dimgray;margin-top:15px;">Contact Me</div>
         <div>@Model.User.ContactNo</div>
 
-        <form action="@Url.Action("CreateGig", "CreateNewGig", Model.Gig)" method="post">
+       @* <form action="@Url.Action("CreateGig", "CreateNewGig", Model.Gig)" method="post">
             <button type="submit" class="btn btn-primary" style="margin-top:35px;">Create</button>
         </form>
         <form action="@Url.Action("CancelCreateGig", "CreateNewGig", Model.Gig)" method="post">
             <button type="submit" class="btn btn-block btn-danger" style="margin-top:15px;">Cancel</button>
-        </form>
+        </form>*@
     </div>
-<div class="col-lg-4 gig-detail-right-panel">
-    <div class="gig-detail-offer">
-        <i class="fa fa-clock-o fa-2x"></i>
-        <span>@Model.Gig.EstimatedDeliveryDays Days Delivery</span>
-        <button class="btn btn-primary">Continue (RM @Model.Gig.Price)</button>
-     </div>
+    <div class="col-lg-4 gig-detail-right-panel">
+        <div class="gig-detail-offer">
+            <i class="fa fa-clock-o fa-2x"></i>
+            <span style="position:relative;top:-5px;padding-left:8px">@Model.Gig.EstimatedDeliveryDays Days Delivery</span>
+            <button class="btn btn-primary">Continue (RM @Model.Gig.Price)</button>
+        </div>
     </div>
 </div>
-
-
-
