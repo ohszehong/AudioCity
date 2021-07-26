@@ -579,3 +579,36 @@ tr.admin-table:hover {
     text-decoration:none;
     color:black;
 }
+
+.profile {
+    border: 1px solid black;
+    height: 110px;
+    width: 110px;
+    border-radius: 50%;
+    box-shadow: 2px 3px 10px black;
+    justify-content: center;
+    margin-left: 10px;
+    position: relative;
+    display: inline-block;
+}
+
+.profile-pic {
+    border-radius: 50%;
+    z-index: -1;
+    position: relative;
+    display: inline-block;
+}
+
+.img-top {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+}
+
+.profile:hover .img-top{
+    display:inline;
+}
