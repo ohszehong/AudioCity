@@ -84,7 +84,7 @@ namespace AudioCity.Controllers
 
 
                 //finally, create Gig instance and pass it to GigModelHelper to deal with CRUD
-                Gig NewGig = new Gig {Id = GigViewModel.Id, CreatedBy = UserId, Title = GigViewModel.Title, Description = GigViewModel.Description, EstimatedDeliveryDays = GigViewModel.EstimatedDeliveryDays, Price = GigViewModel.Price, Category = GigViewModel.Category, ThumbnailFilePath = ThumbnailBlobReference, PortfolioFilePath = PortfolioBlobReference, PublishedOn = DateTime.Now, ArtistName = AudioCityUser.FullName };
+                Gig NewGig = new Gig {Id = GigViewModel.Id, CreatedBy = UserId, Title = GigViewModel.Title, Description = GigViewModel.Description, EstimatedDeliveryDays = GigViewModel.EstimatedDeliveryDays, Price = GigViewModel.Price, Category = GigViewModel.Category, ThumbnailFilePath = ThumbnailBlobReference, PortfolioFilePath = PortfolioBlobReference, PublishedOn = DateTime.Now, ArtistName = AudioCityUser.FullName, MaxOrderCount = GigViewModel.MaxOrderCount };
 
                 System.Diagnostics.Debug.WriteLine("valid...");
 
@@ -105,7 +105,9 @@ namespace AudioCity.Controllers
 
             AudioCityUser AudioCityUser = await _userManager.GetUserAsync(User);
 
-            GigDetailViewModel GigDetail = new GigDetailViewModel { Gig = NewGig, Portfolio = Portfolio, Thumbnail = Thumbnail, User = AudioCityUser };
+            int RoundedRating = (int)Math.Floor(NewGig.Rating);
+
+            GigDetailViewModel GigDetail = new GigDetailViewModel { Gig = NewGig, Portfolio = Portfolio, Thumbnail = Thumbnail, User = AudioCityUser, RoundedRating = RoundedRating };
             return View(GigDetail);
         }
 

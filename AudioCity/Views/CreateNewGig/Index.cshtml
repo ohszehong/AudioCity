@@ -16,17 +16,17 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="Title"></label>
-                        <input asp-for="Title" class="form-control" placeholder="Gig Title"/>
+                        <input asp-for="Title" class="form-control" placeholder="Gig Title" />
                         <span asp-validation-for="Title" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Description"></label>
-                        <textarea asp-for="Description" class="form-control" placeholder="Gig Description"></textarea>
+                        <textarea asp-for="Description" class="form-control" placeholder="Gig Description" style="height:200px;"></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="EstimatedDeliveryDays"></label>
-                        <input min="1" step="1" asp-for="EstimatedDeliveryDays" class="form-control" placeholder="Estimated Delivery Days e.g. 5" oninput="this.value = Math.abs(this.value)"/>
+                        <input min="1" step="1" asp-for="EstimatedDeliveryDays" class="form-control" placeholder="Estimated Delivery Days e.g. 5" oninput="this.value = Math.abs(this.value)" />
                         <span asp-validation-for="EstimatedDeliveryDays" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -41,7 +41,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Portfolio"></label>
-                        <input type="file" accept="video/*" asp-for="Portfolio" name="Portfolio" class="form-control"/>
+                        <input type="file" accept="video/*" asp-for="Portfolio" name="Portfolio" class="form-control" />
                         <span asp-validation-for="Portfolio" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -58,6 +58,11 @@
                             <option value="Vfx">Vfx</option>
                         </select>
                         <span asp-validation-for="Category" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MaxOrderCount"></label>
+                        <input min="1" step="1" asp-for="MaxOrderCount" class="form-control" placeholder="Maximum order from customers e.g. 12" oninput="this.value = Math.abs(this.value)" />
+                        <span asp-validation-for="MaxOrderCount" class="text-danger"></span>
                     </div>
                     <button type="submit" class="btn btn-primary">Preview</button>
                 </form>

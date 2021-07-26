@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace AudioCity.Controllers
 {
+    [Authorize]
     public class FreelanceListController : Controller
     {
 
@@ -20,34 +21,101 @@ namespace AudioCity.Controllers
             _userManager = UserManager;
         }
 
-        [Authorize]
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<IActionResult> Index(string gigName = null, string gigCategory = null, string gigMinBudget = null, string gigMaxBudget = null, string gigDeliveryDays = null)
         {
-            //get all gigs using GigModelHelper 
-            List<Gig> AllGigs = GigModelHelper.GetAllGigs();
+            var SearchQueries = new string[5] { gigName, gigCategory, gigMinBudget, gigMaxBudget, gigDeliveryDays };
+
+            ViewBag.SearchQueries = SearchQueries;
+
+            double MinBudget;
+            double MaxBudget;
+            int DeliveryDays;
+
+            if (gigMinBudget == null)
+            {
+                MinBudget = 0;
+            }
+
+            else
+            {
+                MinBudget = Convert.ToDouble(gigMinBudget);
+            }
+
+            if(gigMaxBudget == null)
+            {
+                MaxBudget = 1.7976931348623157E+308;
+            }
+
+            else
+            {
+                MaxBudget = Convert.ToDouble(gigMaxBudget);
+            }
+
+            if(gigDeliveryDays == null)
+            {
+                DeliveryDays = -1;
+            }
+
+            else
+            {
+                DeliveryDays = Convert.ToInt32(gigDeliveryDays);
+            }
+
+            if(gigCategory == "All Category")
+            {
+                gigCategory = null;
+            }
+
+            System.Diagnostics.Debug.WriteLine("data: " + gigName + " " + gigCategory + " " + MinBudget + " " + MaxBudget + " " + DeliveryDays);
+             
+            //get gigs using GigModelHelper 
+            List<Gig> Gigs = GigModelHelper.SearchGigs(gigName, gigCategory, MinBudget, MaxBudget, DeliveryDays);
 
             AudioCityUser AudioCityUser = await _userManager.GetUserAsync(User);
 
             //convert to GigDetailViewModel instances 
             CloudBlobContainer Container = ConfigureAudioCityAzureBlob.GetBlobContainerInformation();
-            List<GigDetailViewModel> AllGigsDetailViewModel = new List<GigDetailViewModel>();
+            List<GigDetailViewModel> GigsDetailViewModel = new List<GigDetailViewModel>();
 
-            foreach(Gig Gig in AllGigs)
+            foreach (Gig Gig in Gigs)
             {
                 //Get list of blob items 
                 CloudBlockBlob Portfolio = Container.GetBlockBlobReference(Gig.PortfolioFilePath);
                 CloudBlockBlob Thumbnail = Container.GetBlockBlobReference(Gig.ThumbnailFilePath);
 
-                GigDetailViewModel GigDetail = new GigDetailViewModel { Gig = Gig, Portfolio = Portfolio, Thumbnail = Thumbnail, User = AudioCityUser };
+                //round down rating score to display number of stars 
+                int RoundedRating = (int)Math.Floor(Gig.Rating);
 
-                AllGigsDetailViewModel.Add(GigDetail);
+                GigDetailViewModel GigDetail = new GigDetailViewModel { Gig = Gig, Portfolio = Portfolio, Thumbnail = Thumbnail, User = AudioCityUser, RoundedRating = RoundedRating };
+
+                GigsDetailViewModel.Add(GigDetail);
             }
 
-            return View(AllGigsDetailViewModel);
+            return View(GigsDetailViewModel);
+
+            //get all gigs using GigModelHelper 
+            /* List<Gig> AllGigs = GigModelHelper.GetAllGigs();
+
+             AudioCityUser AudioCityUser = await _userManager.GetUserAsync(User);
+
+             //convert to GigDetailViewModel instances 
+             CloudBlobContainer Container = ConfigureAudioCityAzureBlob.GetBlobContainerInformation();
+             List<GigDetailViewModel> AllGigsDetailViewModel = new List<GigDetailViewModel>();
+
+             foreach(Gig Gig in AllGigs)
+             {
+                 //Get list of blob items 
+                 CloudBlockBlob Portfolio = Container.GetBlockBlobReference(Gig.PortfolioFilePath);
+                 CloudBlockBlob Thumbnail = Container.GetBlockBlobReference(Gig.ThumbnailFilePath);
+
+                 GigDetailViewModel GigDetail = new GigDetailViewModel { Gig = Gig, Portfolio = Portfolio, Thumbnail = Thumbnail, User = AudioCityUser };
+
+                 AllGigsDetailViewModel.Add(GigDetail);
+             }*/
         }
 
 
-        [Authorize]
         public async Task<IActionResult> GigDetail(string GigId)
         {
             //get the specific Gig 
@@ -57,6 +125,11 @@ namespace AudioCity.Controllers
             //convert to GigDetailViewModel instance
             GigDetailViewModel SelectedGigDetail = GigModelHelper.ConvertToGigDetailViewModel(SelectedGig, AudioCityUser);
 
+            if(TempData["ExceedMaxOrdersCount"] != null)
+            {
+                ViewBag.ExceedMaxOrdersCount = TempData["ExceedMaxOrdersCount"];
+                ViewBag.GigActiveOrdersCount = TempData["GigActiveOrdersCount"];
+            }
             return View(SelectedGigDetail);
         }
 

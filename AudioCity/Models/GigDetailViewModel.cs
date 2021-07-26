@@ -14,5 +14,7 @@ namespace AudioCity.Models
         public CloudBlockBlob Thumbnail { get; set; }
 
         public AudioCityUser User { get; set; }
+
+        public int RoundedRating { get; set; }
     }
 }

@@ -10,10 +10,6 @@ namespace AudioCity.Models
 {
     public class GigViewModel
     {
-
-        //auto generate unique id 
-        /*[ScaffoldColumn(false)]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]*/
         public string Id { get; set; }
 
         [Required(ErrorMessage = "{0} is required.")]
@@ -22,7 +18,7 @@ namespace AudioCity.Models
         public string Title {get; set;}
 
         [Required(ErrorMessage = "{0} is required.")]
-        [StringLength(500, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 20)]
+        [StringLength(2000, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 20)]
         [Display(Name = "Description")]
         public string Description { get; set; }
 
@@ -46,5 +42,10 @@ namespace AudioCity.Models
         [Required(ErrorMessage = "{0} is required.")]
         public IFormFile Portfolio { get; set; }
 
-    }
+        [Display(Name = "Acceptable max order count")]
+        [Required(ErrorMessage = "Estimated delivery days is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Minimum of 1 max order count or larger.")]
+        public int MaxOrderCount { get; set; }
+
+    } 
 }

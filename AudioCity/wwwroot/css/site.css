@@ -86,7 +86,7 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 .footer {
   position: absolute;
@@ -407,9 +407,7 @@ body {
 .active-gigs-container {
     position:relative;
     height:750px;
-    width:95%;
-    margin-left:50px;
-    margin-top:35px;
+    width:75%;
     padding:25px;
 }
 
@@ -422,6 +420,7 @@ body {
 .active-gigs-card {
     position: relative;
     height: 300px;
+    margin-bottom:20px;
     box-shadow: 3px 3px rgba(0,0,0,.15);
     transition: all .4s ease;
 }
@@ -506,11 +505,12 @@ tr.admin-table:hover {
 }
 
 .gig-detail-description {
-    max-height: 200px;
     overflow: hidden;
     color: #62646a;
     word-wrap: break-word;
     word-break: break-word;
+    font-family: 'Roboto', sans-serif;
+    font-size:18px;
 }
 
 .checked {
@@ -519,7 +519,7 @@ tr.admin-table:hover {
 
 .gig-detail-offer {
     width:100%;
-    height:150px;
+    min-height:150px;
     border-style:solid;
     border-width:thin;
     border-color:rgba(0,0,0,.4);
@@ -552,4 +552,23 @@ tr.admin-table:hover {
 .freelancelist-card-container a {
     text-decoration:none;
     color:black;
+}
+
+.comment-content {
+    padding-top:15px;
+    padding-left:45px;
+}
+
+.search-tag {
+    border-style:solid;
+    border-width:thin;
+    background-color:#FE2C54;
+    color:white;
+    text-align:center;
+    height:40px;
+    font-size: 14px;
+    margin-left: 15px;
+    margin-top: 15px;
+    border-radius: 20px;
+    padding-top:7px;
 }
