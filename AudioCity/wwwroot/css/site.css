@@ -29,7 +29,6 @@ a.navbar-brand {
 
 /* Provide sufficient contrast against white background */
 a {
-    color: #FE2C54;
 }
 
 .btn:hover {
@@ -43,28 +42,10 @@ a {
     margin-top:20px;
 }
 
-.nav-pills .show > .nav-link {
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: #fff;
-    background-color: #FE2C54;
-    border-color: #FE2C54;
-}
-
-.nav-link {
-    color: #fff;
-    background-color: #FE2C54;
-    border-color: #FE2C54;
-}
-
-.nav-link.active {
-    color: #fff;
-    background-color: #1DBF73;
-    border-color: #FE2C54;
-}
-
-.nav-link:hover {
-    color: black;
-    background-color: #FE2C54;
-    border-color: #FE2C54;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 li.nav-item {

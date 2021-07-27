@@ -58,12 +58,12 @@ namespace AudioCity.Controllers
             List<Order> CO = GetCompleteOrder();
             if (SearchText == null)
             {
-                return PartialView("_CompleteOrderPartial", CO);
+                return PartialView("_PendingOrderPartial", CO);
             } else
             {
                 var result = CO.Where(a => a.OrderID.ToLower().Contains(SearchText) || a.Buyer.ToLower().Contains(SearchText) 
                 || a.Seller.ToLower().Contains(SearchText) || a.Price.ToString().Contains(SearchText)).ToList();
-                return PartialView("_CompleteOrderPartial", result);
+                return PartialView("_PendingOrderPartial", result);
             }
         }
     }
