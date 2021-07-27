@@ -10,15 +10,6 @@ namespace AudioCity.Areas.Identity.Data
     public class AudioCityUser : IdentityUser
     {
 
-        public AudioCityUser()
-        {
-            AudioWallet = 0.00;
-            Rating = 0.00;
-        }
-
-        [PersonalData]
-        public double AudioWallet { get; set; }
-
         [PersonalData]
         public string FullName { get; set; }
 
@@ -30,9 +21,6 @@ namespace AudioCity.Areas.Identity.Data
 
         [PersonalData]
         public string Role { get; set; }
-
-        [PersonalData]
-        public double Rating { get; set; }
 
     }
 }
