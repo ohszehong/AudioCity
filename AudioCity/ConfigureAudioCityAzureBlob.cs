@@ -39,5 +39,6 @@ namespace AudioCity
            CloudBlobContainer Container =  GetBlobContainerInformation();
            Container.CreateIfNotExistsAsync();
         }
+
     }
 }

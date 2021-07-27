@@ -10,7 +10,15 @@
             <div id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item partial-nav">
-                        <a class="nav-link" asp-controller="CustomerDashboard" asp-action="Index" asp-route-Id="@ViewBag.UserId" asp-route-PartialPage="_PendingOrdersPartial">PENDING ORDERS</a>
+                        @if (ViewBag.PendingOrdersCount > 0)
+                        {
+                            <a class="nav-link" style="color:#FE2C54;" asp-controller="CustomerDashboard" asp-action="Index" asp-route-Id="@ViewBag.UserId" asp-route-PartialPage="_PendingOrdersPartial">PENDING ORDERS (@ViewBag.PendingOrdersCount)</a>
+                        }
+                        else
+                        {
+                            <a class="nav-link" asp-controller="CustomerDashboard" asp-action="Index" asp-route-Id="@ViewBag.UserId" asp-route-PartialPage="_PendingOrdersPartial">PENDING ORDERS</a>
+                        }
+
                     </li>
                     <li class="nav-item partial-nav">
                         <a class="nav-link" asp-controller="CustomerDashboard" asp-action="Index" asp-route-Id="@ViewBag.UserId" asp-route-PartialPage="_ActiveOrdersPartial">ACTIVE ORDERS</a>
@@ -27,7 +35,7 @@
                 </ul>
             </div>
         </nav>
-        <div style="margin-left:50px;margin-top:50px;">
+        <div style="margin-left:50px;margin-top:50px;margin-right:15px;">
         <partial name="@ViewBag.PartialPage" />
         </div>
     </div>

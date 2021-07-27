@@ -35,5 +35,7 @@ namespace AudioCity.Models
 
         public int MaxOrderCount { get; set; }
 
+        public int TotalReviews { get; set; }
+
     }
 }

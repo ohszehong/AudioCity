@@ -354,7 +354,6 @@ body {
     left:0;
     right:0;
     bottom:0;
-    height:950px;
     width:100%;
     margin:0;
 }
@@ -370,9 +369,7 @@ body {
 
 
 .seller-dashboard-content-panel {
-    position:relative;
     margin:0;
-    height:950px;
     background-color:rgba(0,0,0,.03);
 }
 
@@ -413,7 +410,6 @@ body {
 
 .active-gigs-container {
     position:relative;
-    height:750px;
     width:75%;
     padding:25px;
 }
@@ -611,4 +607,34 @@ tr.admin-table:hover {
 
 .profile:hover .img-top{
     display:inline;
+}
+
+.comment-content {
+    padding-top:15px;
+    padding-left:45px;
+}
+
+.search-tag {
+    border-style:solid;
+    border-width:thin;
+    background-color:#FE2C54;
+    color:white;
+    text-align:center;
+    height:40px;
+    font-size: 14px;
+    margin-left: 15px;
+    margin-top: 15px;
+    border-radius: 20px;
+    padding-top:7px;
+}
+
+.order-description-container {
+    box-shadow: 3px 3px rgba(0,0,0,.15);
+    transition: all .4s ease;
+}
+
+.order-description-container:hover {
+    box-shadow: 15px 15px rgba(0,0,0,.25);
+    cursor:pointer;
+}
 }

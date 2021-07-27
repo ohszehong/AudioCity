@@ -12,7 +12,8 @@ namespace AudioCity.Models
         PendingAccept,
         Rejected,
         Ongoing,
-        Completed
+        Completed,
+        Archived
     }
 
 
@@ -48,6 +49,8 @@ namespace AudioCity.Models
         public string OrderStatus { get; set; }
 
         public double OrderPayment { get; set; }
+
+        public string OrderThumbnailUri { get; set; }
 
     }
 }

@@ -125,6 +125,10 @@ namespace AudioCity.Controllers
             //convert to GigDetailViewModel instance
             GigDetailViewModel SelectedGigDetail = GigModelHelper.ConvertToGigDetailViewModel(SelectedGig, AudioCityUser);
 
+            //retrieve all comments for the selected gig 
+            List<CustomerReviewEntity> CustomerReviews = CustomerReviewEntityHelper.GetGigReviews(GigId);
+            SelectedGigDetail.CustomerReviews = CustomerReviews;
+
             if(TempData["ExceedMaxOrdersCount"] != null)
             {
                 ViewBag.ExceedMaxOrdersCount = TempData["ExceedMaxOrdersCount"];
