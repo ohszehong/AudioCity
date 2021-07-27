@@ -4,14 +4,16 @@ using AudioCity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AudioCity.Migrations
 {
     [DbContext(typeof(AudioCityContext))]
-    partial class AudioCityContextModelSnapshot : ModelSnapshot
+    [Migration("20210727140136_removeACWalletAndRating")]
+    partial class removeACWalletAndRating
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
