@@ -1,0 +1,93 @@
+﻿@model AudioCity.Models.GigDetailViewModel;
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="row" style="padding:70px;margin:0;padding-right:45px;">
+    <div class="col-lg-8 gig-detail-left-panel">
+        <h1 style="font-weight:bold;">
+            @Model.Gig.Title
+        </h1>
+        <img src="~/static/profile-picture-example.jfif" class="gig-detail-profile-picture-small" />
+        <div class="gig-detail-seller-name">
+            @Model.Gig.ArtistName
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span style="color:orange;">5.0</span>
+        </div>
+        <div style="color:rgba(0,0,0,.5)">Published Since @Model.Gig.PublishedOn</div>
+        <video style="width:100%;height:400px;margin-top:25px;margin-bottom:50px;" controls>
+            <source src="@Model.Portfolio.Uri">
+            Your browser does not support the video tag.
+        </video>
+        <h3 style="font-weight:bold;">About This Gig</h3>
+        <pre class="gig-detail-description">@Model.Gig.Description</pre>
+        <hr />
+        <div style="font-size:20px;color:dimgray;">Category</div>
+        <div>@Model.Gig.Category</div>
+        <div style="font-size:20px;color:dimgray;margin-top:15px;">Contact Me</div>
+        <div>@Model.User.ContactNo</div>
+
+        <h3 style="font-weight:bold;margin-top:50px;">
+            3 Reviews
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span style="color:orange;">5.0</span>
+        </h3>
+        <hr />
+        <div class="row">
+            <div class="col-12">
+                <img src="~/static/profile-picture-example.jfif" style="width:34px;height:34px;border-radius:30px;" />
+                <span style="padding-left:5px;font-weight:bold;">helenoftroy08</span>
+                <span class="fa fa-star checked" style="margin-left: 5px;"></span>
+                <span style="color:orange;">5.0</span>
+                <p class="comment-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dictum dui erat. Donec tempus, justo sit amet rutrum iaculis, ligula quam fermentum dui, eget malesuada velit est eu ligula. Cras arcu risus, vestibulum auctor congue id, eleifend et purus.</p>
+                <span style="padding-left:45px;color:rgba(0,0,0,.5);">Published Since 20/7/2021 10:29:15 PM</span>
+                <hr />
+            </div>
+            <div class="col-12">
+                <img src="~/static/profile-picture-example.jfif" style="width:34px;height:34px;border-radius:30px;" />
+                <span style="padding-left:5px;font-weight:bold;">helenoftroy08</span>
+                <span class="fa fa-star checked" style="margin-left: 5px;"></span>
+                <span style="color:orange;">5.0</span>
+                <p class="comment-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dictum dui erat. Donec tempus, justo sit amet rutrum iaculis, ligula quam fermentum dui, eget malesuada velit est eu ligula. Cras arcu risus, vestibulum auctor congue id, eleifend et purus.</p>
+                <span style="padding-left:45px;color:rgba(0,0,0,.5);">Published Since 20/7/2021 10:29:15 PM</span>
+                <hr />
+            </div>
+            <div class="col-12">
+                <img src="~/static/profile-picture-example.jfif" style="width:34px;height:34px;border-radius:30px;" />
+                <span style="padding-left:5px;font-weight:bold;">helenoftroy08</span>
+                <span class="fa fa-star checked" style="margin-left: 5px;"></span>
+                <span style="color:orange;">5.0</span>
+                <p class="comment-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dictum dui erat. Donec tempus, justo sit amet rutrum iaculis, ligula quam fermentum dui, eget malesuada velit est eu ligula. Cras arcu risus, vestibulum auctor congue id, eleifend et purus.</p>
+                <span style="padding-left:45px;color:rgba(0,0,0,.5);">Published Since 20/7/2021 10:29:15 PM</span>
+                <hr />
+            </div>
+        </div>
+
+        <form action="@Url.Action("CreateGig", "CreateNewGig", Model.Gig)" method="post">
+            <button type="submit" class="btn btn-primary" style="margin-top:35px;">Create</button>
+        </form>
+        <form action="@Url.Action("CancelCreateGig", "CreateNewGig", Model.Gig)" method="post">
+            <button type="submit" class="btn btn-block btn-danger" style="margin-top:15px;">Cancel</button>
+        </form>
+    </div>
+<div class="col-lg-4 gig-detail-right-panel">
+    <div class="gig-detail-offer">
+        <i class="fa fa-clock-o fa-2x"></i>
+        <span style="position:relative;top:-5px;padding-left:8px;">@Model.Gig.EstimatedDeliveryDays Days Delivery</span>
+        <button class="btn btn-primary">Continue (RM @Model.Gig.Price)</button>
+     </div>
+    </div>
+</div>
+
+

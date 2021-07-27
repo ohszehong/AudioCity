@@ -1,0 +1,77 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@Html.AntiForgeryToken()
+<div class="create-new-gig-container">
+    <div class="row" style="margin:0;">
+        <div class="col-12" id="create-new-gig-form-col" style="height:900px;">
+            <div class="register-form" id="form-section">
+                <form asp-action="ReviewOrder" asp-route-GigId="@ViewBag.GigId" asp-route-OrderId="@ViewBag.OrderId">
+                    <h4 style="text-align:center;font-weight:bold;">Review</h4>
+                    <hr />
+                    <div class="form-group">
+
+                        <input type="hidden" value="0" id="rating-score" name="RatingScore" />
+
+                        <span style="font-size:32px;cursor:pointer;" id="rating-star-group">
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                        </span>
+
+                        <br />
+                        <br />
+
+                        <label>Comment</label>
+                        <textarea class="form-control" style="height:250px;" placeholder="Your comment" name="Comment"></textarea>
+                        @if (ViewBag.ErrorMessage != null)
+                        {
+                            <span class="text-danger">@ViewBag.ErrorMessage</span>
+                        }
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="margin-bottom:15px;">Post</button>
+                </form>
+                <a style="text-decoration:none;" asp-action="Index" asp-route-PartialPage="_CompletedOrdersPartial"><button class="btn btn-danger btn-block">Cancel</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var ratingStarGroup = document.getElementById('rating-star-group').children;
+    var ratingValue = document.getElementById('rating-score');
+    var totalStars = ratingStarGroup.length;
+
+    function setRatingValueDelegate(ratingScore) {
+        return function () {
+            setRatingValue(ratingScore);
+        }
+    }
+
+    function setRatingValue(ratingScore) {
+
+        ratingValue.value = ratingScore;
+
+        //first, uncheck all stars 
+        for (var i = 0; i < totalStars; i++) {
+            ratingStarGroup[i].classList.remove("checked");
+        }
+
+        //then, fill the star based on rating value 
+        for (var i = 0; i < ratingValue.value; i++) {
+            ratingStarGroup[i].classList.add("checked");
+        }
+
+    }
+
+    for (var i = 0; i < totalStars; i++) {
+        ratingStarGroup[i].addEventListener("click", setRatingValueDelegate(i+1), false);
+    }
+
+</script>

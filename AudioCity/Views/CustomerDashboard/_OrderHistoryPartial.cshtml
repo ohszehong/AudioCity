@@ -1,5 +1,4 @@
-﻿@model List<OrderEntity>; 
-
+﻿@model List<OrderEntity>;
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -29,7 +28,8 @@
                     <div style="color:#62646a;margin-bottom:15px;">
                         Order status:
 
-                        @if (Order.OrderStatus == OrderStatus.Completed.ToString() || Order.OrderStatus == OrderStatus.Archived.ToString())
+
+                        @if (Order.OrderStatus == OrderStatus.Archived.ToString())
                         {
                             <span class="text-success">Completed</span>
                         }
@@ -40,11 +40,8 @@
 
                             <div>Rejected reason: @Order.OrderRejectReason</div>
                         }
-
-
                     </div>
-
-                    @if (Order.OrderStatus == OrderStatus.Archived.ToString() || Order.OrderStatus == OrderStatus.Completed.ToString())
+                    @if (Order.OrderStatus == OrderStatus.Archived.ToString())
                     {
                         <div style="width:100%;text-align:right;margin-bottom:15px;">
                             <form style="display:inline-block;" method="post" asp-controller="DownloadContent" asp-action="DownloadFile">
@@ -53,7 +50,6 @@
                             </form>
                         </div>
                     }
-
                 </div>
             </div>
         }

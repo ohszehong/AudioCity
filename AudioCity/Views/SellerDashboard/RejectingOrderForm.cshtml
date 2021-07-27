@@ -1,0 +1,31 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+@Html.AntiForgeryToken()
+<div class="create-new-gig-container">
+    <div class="row" style="margin:0;">
+        <div class="col-12" id="create-new-gig-form-col" style="height:900px;">
+            <div class="register-form" id="form-section">
+                <form asp-action="RejectOrder" asp-route-GigId="@ViewBag.GigId" asp-route-OrderId="@ViewBag.OrderId">
+                    <h4 style="text-align:center;font-weight:bold;">Submit Content</h4>
+                    <hr />
+                    <div class="form-group">
+                        <label>Reject reason</label>
+                        <textarea class="form-control" style="height:250px;" placeholder="Reason" name="RejectReason"></textarea>
+                        @if (ViewBag.ErrorMessage != null)
+                        {
+                            <span class="text-danger">@ViewBag.ErrorMessage</span>
+                        }
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="margin-bottom:15px;">Confirm</button>
+                </form>
+                <a style="text-decoration:none;" asp-action="Index" asp-route-PartialPage="_OrderHistoryPartial"><button class="btn btn-danger btn-block">Cancel</button></a>
+            </div>
+        </div>
+    </div>
+</div>

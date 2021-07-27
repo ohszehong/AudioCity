@@ -1,7 +1,127 @@
-﻿@*
+﻿@model List<GigDetailViewModel>;
+
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 }
 
-<h1>Hello World.</h1>
+<div style="height:1200px;padding:50px;">
+    <h1>Welcome to AudioCity</h1>
+    <h5 style="color: #62646a;">Get someone that is talented to grow your business.</h5>
+
+    <form class="row" method="get" asp-controller="FreelanceList" asp-action="Index" id="search-gig-form">
+        <div class="freelancelist-search-input-container col-md-9">
+            <img src="~/static/search.png" height="24" width="24" />
+            <input type="text" style="border:none;width:90%;" placeholder='Try "Jazz Music"' name="gigName" value="@(ViewBag.SearchQueries[0] != null ? ViewBag.SearchQueries[0] : "")"/>
+        </div>
+        <button type="submit" class="col-md-2 btn btn-primary" style="height:50px;margin:0;margin-top:15px;margin-left:10px;">Search</button>
+
+        <select class="form-control col-md-2" style="margin-top:15px;margin-left:15px;" name="gigCategory" id="search-gig-category">
+            <option value="" selected>All Category</option>
+            <option value="Classical">Classical</option>
+            <option value="EDM">EDM</option>
+            <option value="Hip-hop">Hip-hop</option>
+            <option value="Jazz">Jazz</option>
+            <option value="Metal">Metal</option>
+            <option value="Pop">Pop</option>
+            <option value="Rap">Rap</option>
+            <option value="Techno">Techno</option>
+            <option value="Vfx">Vfx</option>
+        </select>
+
+        <input type="number" class="form-control col-md-2" placeholder="Min Budget (RM)" style="margin-top:15px;margin-left:15px;" oninput="this.value = Math.abs(this.value)" name="gigMinBudget" value="@(ViewBag.SearchQueries[2] != null ? ViewBag.SearchQueries[2] : "")"/>
+
+        <input type="number" class="form-control col-md-2" placeholder="Max Budget (RM)" style="margin-top:15px;margin-left:15px;" oninput="this.value = Math.abs(this.value)" name="gigMaxBudget" value="@(ViewBag.SearchQueries[3] != null ? ViewBag.SearchQueries[3] : "")"/>
+
+        <input type="number" class="form-control col-md-2" placeholder="Delivery Days e.g. 2" style="margin-top:15px;margin-left:15px;" oninput="this.value = Math.abs(this.value)" name="gigDeliveryDays" value="@(ViewBag.SearchQueries[4] != null ? ViewBag.SearchQueries[4] : "")"/>
+
+    </form>
+
+    @if(ViewBag.SearchQueries[0] != null)
+      {
+         <h3 style="margin-top:30px;">Result of "@ViewBag.SearchQueries[0]"</h3>
+      }
+
+    <div class="row">
+
+    @for (int i = 1; i < ViewBag.SearchQueries.Length; i++)
+    {
+        if (ViewBag.SearchQueries[i] != null)
+        {
+            var TagName = "";
+            //tag name 
+            if(i == 1)
+            {
+                TagName = "Category";
+            }
+            else if(i == 2)
+            {
+                TagName = "Min (RM)";
+            }
+            else if(i == 3)
+            {
+                TagName = "Max (RM)";
+            }
+            else if(i == 4)
+            {
+                TagName = "Delivery Days";
+            }
+
+        <label class="col-lg-2 col-md-4 search-tag">
+            @(TagName): @ViewBag.SearchQueries[i] 
+        </label>
+        }
+    }
+
+
+    </div>
+
+    @if (Model.Count <= 0)
+    {
+        
+        <h1 style="text-align:center;margin-top:200px;color:rgba(0,0,0,.5)">No Result</h1>
+    }
+
+    else
+    {
+    <div class="row freelancelist-card-container" style="margin-top:40px;width:80%;">
+        
+        
+        @foreach (GigDetailViewModel GigDetailViewModel in Model)
+        {
+            <a class="col-lg-3 col-md-6" asp-controller="FreelanceList" asp-action="GigDetail" asp-route-GigId="@GigDetailViewModel.Gig.Id">
+                <div class="active-gigs-card" style="padding:0;height:340px;">
+                    <img src="@GigDetailViewModel.Thumbnail.Uri" height="150" style="position:relative;width:100%" />
+                    <div style="padding:15px;padding-bottom:0;font-weight:600;">
+                        <img src="~/static/profile-picture-example.jfif" style="width:28px;height:28px;border-radius:20px;" />
+                        &nbsp;
+                        @GigDetailViewModel.Gig.ArtistName
+                    </div>
+                    <div style="height:100px;padding-left:15px;padding-top:15px;">@GigDetailViewModel.Gig.Title</div>
+                    <div style="height:50px;padding-left:10px;text-align:end;padding-top:15px;padding-right:8px;">
+                        <span style="color:#FE2C54">Cost at</span>
+                        <span style="color:#FE2C54;font-weight:bold;font-size:20px;">RM@(GigDetailViewModel.Gig.Price)</span>
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
+    }
+
+</div>
+
+<script>
+
+    var searchGigCategory = document.getElementById('search-gig-category');
+
+    for (const category of searchGigCategory) {
+
+        if ('@ViewBag.SearchQueries[1]' == category.value) {
+            category.selected = true;
+        }
+    }
+
+</script>
+
+

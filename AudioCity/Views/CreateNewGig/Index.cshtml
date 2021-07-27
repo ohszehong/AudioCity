@@ -1,10 +1,11 @@
-﻿@model AudioCity.Models.Gig;
+﻿@model AudioCity.Models.GigViewModel;
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 }
 
+@Html.AntiForgeryToken()
 <div class="create-new-gig-container">
     <div class="row" style="margin:0;">
         <div class="col-12" id="create-new-gig-form-col" style="height:900px;">
@@ -15,33 +16,33 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="Title"></label>
-                        <input asp-for="Title" class="form-control" />
+                        <input asp-for="Title" class="form-control" placeholder="Gig Title" />
                         <span asp-validation-for="Title" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Description"></label>
-                        <textarea asp-for="Description" class="form-control"></textarea>
+                        <textarea asp-for="Description" class="form-control" placeholder="Gig Description" style="height:200px;"></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="EstimatedDeliveryDays"></label>
-                        <input min="1" step="1" asp-for="EstimatedDeliveryDays" class="form-control" />
+                        <input min="1" step="1" asp-for="EstimatedDeliveryDays" class="form-control" placeholder="Estimated Delivery Days e.g. 5" oninput="this.value = Math.abs(this.value)" />
                         <span asp-validation-for="EstimatedDeliveryDays" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Price"></label>
-                        <input asp-for="Price" class="form-control" />
+                        <input asp-for="Price" class="form-control" placeholder="Price (RM)" />
                         <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Thumbnail"></label>
-                        <input type="file" accept="image/*" asp-for="Thumbnail" class="form-control" />
+                        <input type="file" accept="image/*" asp-for="Thumbnail" name="Thumbnail" class="form-control" />
                         <span asp-validation-for="Thumbnail" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label>Portfolio (video)</label>
-                        <input type="file" accept="video/*" class="form-control" name="PortfolioVideo"/>
-                        <span asp-validation-for="PortfolioFilePath" class="text-danger"></span>
+                        <label asp-for="Portfolio"></label>
+                        <input type="file" accept="video/*" asp-for="Portfolio" name="Portfolio" class="form-control" />
+                        <span asp-validation-for="Portfolio" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Category"></label>
@@ -57,6 +58,11 @@
                             <option value="Vfx">Vfx</option>
                         </select>
                         <span asp-validation-for="Category" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MaxOrderCount"></label>
+                        <input min="1" step="1" asp-for="MaxOrderCount" class="form-control" placeholder="Maximum order from customers e.g. 12" oninput="this.value = Math.abs(this.value)" />
+                        <span asp-validation-for="MaxOrderCount" class="text-danger"></span>
                     </div>
                     <button type="submit" class="btn btn-primary">Preview</button>
                 </form>

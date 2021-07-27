@@ -20,17 +20,17 @@
 
 <div class="search-container">
 <img class="music-icon" src="~/static/music-note.png"/>
-<form class="search-form">
+<form class="search-form" id="search-gig-form" method="get">
     <span>
     <img src="~/static/search.png" width="32" height="32" class="search-btn-icon"/>
     </span>
 
     <span>
-        <input type="text" class="search-btn-text-input" placeholder='Try "Vfx for game"'/>
+        <input type="text" class="search-btn-text-input" placeholder='Try "Vfx for game"' id="search-gig-input" name="gigName"/>
     </span>
    
     <span>
-        <button class="search-btn" asp-controller="FreelanceList" asp-action="Index">
+        <button type="submit" class="search-btn" id="search-gig-btn">
             Search
         </button>
     </span>
@@ -39,7 +39,7 @@
 
 
 <div class="homepage-desc-1-container row">
-    <div class="col-7">
+    <div class="col-lg-7 col-md-12">
         <h1>
             A whole new place for music artists to sell their talents.
         </h1>
@@ -92,16 +92,16 @@
         </ul>
     </div>
 
-    <div class="col-5" style="position:relative;">
+    <div class="col-lg-5 d-md-none d-sm-none d-lg-block" style="position:relative;">
       <img class="homepage-desc-1-img" src="~/static/freelance.jfif"/>
     </div>
 </div>
 
 <div class="homepage-desc-2-container row">
-    <div class="col-8">
+    <div class="col-lg-8 col-sm-12">
 
     </div>
-    <div class="col-4">
+    <div class="col-lg-4 d-md-none d-sm-none d-lg-block">
         <div class="homepage-desc-2-text-overlay">
             <h1 style="color:white;opacity:1!important">Find the talents needed to get your business growing.</h1>
             
@@ -113,6 +113,29 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    var searchGigInput = document.getElementById('search-gig-input');
+    var searchGigBtn = document.getElementById('search-gig-btn');
+    var searchGigForm = document.getElementById('search-gig-form');
+
+    searchGigBtn.addEventListener("click", function (event) {
+
+        event.preventDefault();
+
+        if (searchGigInput.value.length <= 0) {
+            return;
+        }
+        else {
+            searchGigForm.action = "/FreelanceList";
+            searchGigForm.submit();
+        }
+
+    });
+
+
+</script>
 
 
 
