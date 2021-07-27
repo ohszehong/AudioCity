@@ -32,38 +32,83 @@ namespace AudioCity.Controllers
 
             if (PartialPage == "_PendingOrdersPartial")
             {
-                try
-                {
-                    string CustomerIdFilter = TableQuery.GenerateFilterCondition("CustomerId", QueryComparisons.Equal, CustomerId);
-                    string OrderStatusFilter = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, OrderStatus.PendingAccept.ToString());
+                List<OrderEntity> PendingOrders = OrderEntityHelper.GetCustomerOrders(CustomerId, OrderStatus.PendingAccept.ToString());
 
-                    string combinedFilter = TableQuery.CombineFilters(CustomerIdFilter, TableOperators.And, OrderStatusFilter);
-
-                    TableQuery<OrderEntity> RetrieveActiveOrderQuery = new TableQuery<OrderEntity>().Where(combinedFilter);
-
-
-                    List<OrderEntity> ActiveOrders = new List<OrderEntity>();
-
-                    TableContinuationToken continuationToken = null;
-                    do
-                    {
-                        // Retrieve a segment (up to 1,000 entities).
-                        TableQuerySegment<OrderEntity> TableQueryResult = Table.ExecuteQuerySegmentedAsync(RetrieveActiveOrderQuery, continuationToken).Result;
-
-                        ActiveOrders.AddRange(TableQueryResult.Results);
-
-                        continuationToken = TableQueryResult.ContinuationToken;
-                    } while (continuationToken != null);
-
-                    return View(ActiveOrders);
-                }
-                catch (Exception Ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("Error occured when retrieving data from table storage: ", Ex.ToString());
-                }
-
+                ViewBag.PendingOrdersCount = PendingOrders.Count;
+                return View(PendingOrders);
             }
+
+            else if (PartialPage == "_RejectedOrdersPartial")
+            {
+                List<OrderEntity> RejectedOrders = OrderEntityHelper.GetCustomerOrders(CustomerId, OrderStatus.Rejected.ToString());
+
+                ViewBag.RejectedOrdersCount = RejectedOrders.Count;
+                return View(RejectedOrders);
+            }
+
+            else if (PartialPage == "_ActiveOrdersPartial")
+            {
+                List<OrderEntity> OngoingOrders = OrderEntityHelper.GetCustomerOrders(CustomerId, OrderStatus.Ongoing.ToString());
+                ViewBag.OngoingOrdersCount = OngoingOrders.Count;
+                return View(OngoingOrders);
+            }
+
+            else if (PartialPage == "_CompletedOrdersPartial")
+            {
+                List<OrderEntity> CompletedOrders = OrderEntityHelper.GetCustomerOrders(CustomerId, OrderStatus.Completed.ToString());
+                ViewBag.CompletedOrdersCount = CompletedOrders.Count;
+                return View(CompletedOrders);
+            }
+
+            else if (PartialPage == "_OrderHistoryPartial")
+            {
+                List<OrderEntity> ArchivedOrders = OrderEntityHelper.GetCustomerOrders(CustomerId, OrderStatus.Archived.ToString());
+                ViewBag.ArchivedOrdersCount = ArchivedOrders.Count;
+                return View(ArchivedOrders);
+            }
+
+
             return View();
+        }
+
+        public IActionResult ReviewingOrderForm(string GigId, string OrderId)
+        {
+            ViewBag.GigId = GigId;
+            ViewBag.OrderId = OrderId;
+
+            if (TempData["ErrorMessage"] != null)
+            {
+                ViewBag.ErrorMessage = TempData["ErrorMessage"];
+                TempData["ErrorMessage"] = null;
+            }
+
+            return View();
+        }
+
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ReviewOrder(string GigId, string OrderId, string RatingScore, string Comment)
+        {
+            //convert RatingScore to double 
+            double Rating = double.Parse(RatingScore);
+
+            if (Rating > 0)
+            {
+                //insert to table storage 
+                AudioCityUser Customer = await _userManager.GetUserAsync(HttpContext.User);
+                CustomerReviewEntityHelper.GenerateReview(GigId, Customer.Id, Customer.FullName, Rating, Comment);
+
+                //change the order status to archived
+                OrderEntity Order = OrderEntityHelper.GetOrder(GigId, OrderId);
+                OrderEntityHelper.UpdateOrderStatus(Order, OrderStatus.Archived.ToString());
+
+                //redirect back to completed order partial 
+                return RedirectToAction("Index", "CustomerDashboard", new { PartialPage = "_CompletedOrdersPartial" });
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Please provides rating score.";
+                return RedirectToAction("ReviewingOrderForm", "CustomerDashboard", new { GigId = GigId, OrderId = OrderId });
+            }
         }
     }
 }

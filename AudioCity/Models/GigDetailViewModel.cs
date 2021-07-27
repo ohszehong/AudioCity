@@ -16,5 +16,9 @@ namespace AudioCity.Models
         public AudioCityUser User { get; set; }
 
         public int RoundedRating { get; set; }
+
+        public double AverageRating { get; set; }
+
+        public List<CustomerReviewEntity> CustomerReviews { get; set; }
     }
 }

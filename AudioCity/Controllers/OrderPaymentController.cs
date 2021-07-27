@@ -3,6 +3,7 @@ using AudioCity.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
@@ -21,40 +22,45 @@ namespace AudioCity.Controllers
             _userManager = UserManager;
         }
 
-        [HttpGet("[controller]/{GigId}")]
-        public IActionResult Index(string GigId)
-        {
-            //check if the user has exceed the gig max order count 
-            List<OrderEntity> GigActiveOrders = OrderEntityHelper.GetGigActiveOrders(GigId);
-            Gig Gig = GigModelHelper.GetGig(GigId);
-
-            if(GigActiveOrders.Count >= Gig.MaxOrderCount)
-            {
-                //display error 
-                TempData["ExceedMaxOrdersCount"] = true;
-                TempData["GigActiveOrdersCount"] = GigActiveOrders.Count;
-                return RedirectToAction("GigDetail", "FreelanceList", new { GigId = GigId });
-            }
-            else
-            {
-                ViewBag.GigId = GigId;
-                return View();
-            }
-        }
-
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ConfirmPayment(PaymentViewModel PaymentDetail, string GigId)
+        public async Task<IActionResult> ConfirmPayment(PaymentViewModel PaymentDetail, string GigId, string FromGigDetail)
         {
-            if(ModelState.IsValid)
+            ViewBag.GigId = GigId;
+
+            //check if the user has exceed the gig max order count 
+            if (FromGigDetail == "true")
+            {
+                List<OrderEntity> GigActiveOrders = OrderEntityHelper.GetGigActiveOrders(GigId);
+                Gig Gig = GigModelHelper.GetGig(GigId);
+
+                if (GigActiveOrders.Count >= Gig.MaxOrderCount)
+                {
+                    //display error 
+                    TempData["ExceedMaxOrdersCount"] = true;
+                    TempData["GigActiveOrdersCount"] = GigActiveOrders.Count;
+                    return RedirectToAction("GigDetail", "FreelanceList", new { GigId = GigId });
+                }
+                else
+                {
+                    return View();
+                }
+
+            }
+
+            else if (ModelState.IsValid)
             {
                 //generate order and store to table storage 
 
                 //first, create a new OrderEntity 
                 AudioCityUser User = await _userManager.GetUserAsync(HttpContext.User);
+                CloudBlobContainer Container = ConfigureAudioCityAzureBlob.GetBlobContainerInformation();
                 string CustomerId = User.Id;
                 string CustomerName = User.FullName;
 
-                bool GenerateSuccess = await OrderEntityHelper.GenerateOrder(GigId, CustomerId, CustomerName, PaymentDetail.OrderNote);
+                string GigThumbnailFilePath = GigModelHelper.GetGig(GigId).ThumbnailFilePath;
+                string GigThumbnailUri = Container.GetBlockBlobReference(GigThumbnailFilePath).Uri.ToString();
+
+                bool GenerateSuccess = await OrderEntityHelper.GenerateOrder(GigId, CustomerId, CustomerName, PaymentDetail.OrderNote, GigThumbnailUri);
 
                 if(GenerateSuccess)
                 {
@@ -63,12 +69,10 @@ namespace AudioCity.Controllers
                 else
                 {
                     ViewBag.ErrorMessage = "Something went wrong, please try again later.";
-                    return View("Index");
+                    return View();
                 }
             }
-
-            //else back to index 
-            return View("Index");
+            return View();
         }
     }
 }

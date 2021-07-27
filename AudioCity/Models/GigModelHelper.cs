@@ -27,7 +27,7 @@ namespace AudioCity.Models
             using (var conn = new SqlConnection(Configure["ConnectionStrings:AudioCityGigDatabaseConnection"]))
             using (var cmd = new SqlCommand("",connection:conn))
             {
-                cmd.CommandText = "insert into Gigs values (@Id, @CreatedBy, @Title, @Description, @EstimatedDeliveryDays, @Price, @Category, @Thumbnail, @PortfolioFilePath, @PublishedOn, @ArtistName, @Rating, @MaxOrderCount)";
+                cmd.CommandText = "insert into Gigs values (@Id, @CreatedBy, @Title, @Description, @EstimatedDeliveryDays, @Price, @Category, @Thumbnail, @PortfolioFilePath, @PublishedOn, @ArtistName, @Rating, @MaxOrderCount, @TotalReviews)";
                 cmd.Parameters.AddWithValue("@Id", GigModel.Id);
                 cmd.Parameters.AddWithValue("@CreatedBy", GigModel.CreatedBy);
                 cmd.Parameters.AddWithValue("@Title", GigModel.Title);
@@ -41,6 +41,7 @@ namespace AudioCity.Models
                 cmd.Parameters.AddWithValue("@ArtistName", GigModel.ArtistName);
                 cmd.Parameters.AddWithValue("@Rating", 0.00);
                 cmd.Parameters.AddWithValue("@MaxOrderCount", GigModel.MaxOrderCount);
+                cmd.Parameters.AddWithValue("@TotalReviews", 0);
 
                 conn.Open();
                 cmd.ExecuteNonQuery();
@@ -76,6 +77,7 @@ namespace AudioCity.Models
                     Gig.ArtistName = reader[10].ToString();
                     Gig.Rating = reader.GetDouble(11);
                     Gig.MaxOrderCount = reader.GetInt32(12);
+                    Gig.TotalReviews = reader.GetInt32(13);
   
                     Gigs.Add(Gig);
                 }
@@ -112,6 +114,7 @@ namespace AudioCity.Models
                     Gig.ArtistName = reader[10].ToString();
                     Gig.Rating = reader.GetDouble(11);
                     Gig.MaxOrderCount = reader.GetInt32(12);
+                    Gig.TotalReviews = reader.GetInt32(13);
 
                     Gigs.Add(Gig);
                 }
@@ -149,6 +152,7 @@ namespace AudioCity.Models
                     Gig.ArtistName = reader[10].ToString();
                     Gig.Rating = reader.GetDouble(11);
                     Gig.MaxOrderCount = reader.GetInt32(12);
+                    Gig.TotalReviews = reader.GetInt32(13);
                 }
 
                 conn.Close();
@@ -225,6 +229,7 @@ namespace AudioCity.Models
                     Gig.ArtistName = reader[10].ToString();
                     Gig.Rating = reader.GetDouble(11);
                     Gig.MaxOrderCount = reader.GetInt32(12);
+                    Gig.TotalReviews = reader.GetInt32(13);
 
                     Gigs.Add(Gig);
                 }
@@ -232,6 +237,22 @@ namespace AudioCity.Models
                 conn.Close();
                 System.Diagnostics.Debug.WriteLine("gigs: " + Gigs.Count);
                 return Gigs;
+            }
+        }
+
+        public static void UpdateGigRating(string GigId, double Rating, int TotalReviews)
+        {
+            using (var conn = new SqlConnection(Configure["ConnectionStrings:AudioCityGigDatabaseConnection"]))
+            using (var cmd = new SqlCommand("", connection: conn))
+            {
+                conn.Open();
+                cmd.CommandText = "update Gigs set Rating=@GigRating, TotalReviews=@GigTotalReviews where Id=@GigId";
+                cmd.Parameters.AddWithValue("@GigRating", Rating);
+                cmd.Parameters.AddWithValue("@GigTotalReviews", TotalReviews);
+                cmd.Parameters.AddWithValue("@GigId", GigId);
+
+                cmd.ExecuteNonQuery();
+                conn.Close();
             }
         }
 
@@ -244,7 +265,22 @@ namespace AudioCity.Models
             CloudBlockBlob Portfolio = Container.GetBlockBlobReference(Gig.PortfolioFilePath);
             CloudBlockBlob Thumbnail = Container.GetBlockBlobReference(Gig.ThumbnailFilePath);
 
-            GigDetailViewModel GigDetail = new GigDetailViewModel { Gig = Gig, Portfolio = Portfolio, Thumbnail = Thumbnail, User = User };
+            double AverageRating;
+            int RoundedRating;
+
+            if (Gig.TotalReviews <= 0)
+            {
+                AverageRating = 0;
+                RoundedRating = 0;
+            }
+            else
+            {
+                AverageRating = Gig.Rating / Gig.TotalReviews;
+                RoundedRating = Convert.ToInt32(Math.Floor(AverageRating));
+            }
+          
+
+            GigDetailViewModel GigDetail = new GigDetailViewModel { Gig = Gig, Portfolio = Portfolio, Thumbnail = Thumbnail, User = User, RoundedRating = RoundedRating, AverageRating = AverageRating};
 
             return GigDetail;
         }

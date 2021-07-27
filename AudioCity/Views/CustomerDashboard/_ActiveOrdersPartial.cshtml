@@ -1,7 +1,39 @@
-﻿@*
+﻿@model List<OrderEntity>; 
+
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 }
 
-<h1>Active order partial</h1>
+
+<div class="row" style="padding-left:30px;">
+
+    @if (Model.Count > 0)
+    {
+        @foreach (OrderEntity Order in Model)
+        {
+            <div class="row order-description-container" style="width: 98%; text-decoration: none; margin-bottom: 35px;">
+
+                <a class="col-lg-4" style="padding-left:0;" asp-controller="FreelanceList" asp-action="GigDetail" asp-route-GigId="@Order.PartitionKey">
+                    <div style="background-image:url('@Order.OrderThumbnailUri');background-size:cover;background-position:center;min-height:200px;height:100%;">
+                    </div>
+                </a>
+
+                <div class="col-lg-8" style="min-height:200px;cursor:default;">
+                    <h3 style="margin-top:15px;color:#FE2C54;">Order Id: @Order.RowKey</h3>
+                    <pre class="gig-detail-description" style="margin-bottom:5px;">Your note: @Order.OrderNote</pre>
+                    <div style="color:#62646a;">Artist name: @Order.SellerName</div>
+                    <div style="color:#62646a;">Order at: @Order.OrderDate</div>
+                    <div style="color:#62646a;">Estimated delivery date: @Order.OrderDueDate</div>
+                    <div style="color:#62646a;">Total paid: RM@(Order.OrderPayment)</div>
+                    <br />
+                    <div style="color:#62646a;margin-bottom:15px;">Order status: <span style="color:orange;">On going</span></div>
+                    <div style="width:100%;text-align:right;margin-bottom:15px;">
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+</div>

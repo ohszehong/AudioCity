@@ -9,7 +9,7 @@ namespace AudioCity.Models
     public class OrderEntityHelper
     {
 
-        public async static Task<bool> GenerateOrder(string GigId, string CustomerId, string CustomerName, string OrderNote)
+        public async static Task<bool> GenerateOrder(string GigId, string CustomerId, string CustomerName, string OrderNote, string OrderThumbnailUri)
         {
             //get particular gig info 
             Gig Gig = GigModelHelper.GetGig(GigId);
@@ -33,7 +33,8 @@ namespace AudioCity.Models
                 OrderCompleteDate = null,
                 OrderPayment = (double)Gig.Price,
                 OrderRejectReason = null,
-                OrderStatus = OrderStatus.PendingAccept.ToString()
+                OrderStatus = OrderStatus.PendingAccept.ToString(),
+                OrderThumbnailUri = OrderThumbnailUri
             };
 
             CloudTable Table = ConfigureAudioCityAzureTable.GetTableContainerInformation();
@@ -59,10 +60,21 @@ namespace AudioCity.Models
 
             try
             {
+                string CombinedFilter = null;
                 string CustomerIdFilter = TableQuery.GenerateFilterCondition("CustomerId", QueryComparisons.Equal, CustomerId);
                 string OrderStatusFilter = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, OrderStatus);
 
-                string CombinedFilter = TableQuery.CombineFilters(CustomerIdFilter, TableOperators.And, OrderStatusFilter);
+                if (OrderStatus == "Archived")
+                {
+                    string OrderStatusFilter2 = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, "Rejected");
+                    string OrderStatusCombinedFilter = TableQuery.CombineFilters(OrderStatusFilter, TableOperators.Or, OrderStatusFilter2);
+                    CombinedFilter = TableQuery.CombineFilters(CustomerIdFilter, TableOperators.And, OrderStatusCombinedFilter);
+
+                }
+                else
+                {
+                    CombinedFilter = TableQuery.CombineFilters(CustomerIdFilter, TableOperators.And, OrderStatusFilter);
+                }
 
                 TableQuery<OrderEntity> RetrieveActiveOrderQuery = new TableQuery<OrderEntity>().Where(CombinedFilter);
 
@@ -85,6 +97,57 @@ namespace AudioCity.Models
             }
 
             return CustomerOrders;
+        }
+
+        public static List<OrderEntity> GetSellerOrders(string SellerId, string OrderStatus)
+        {
+            CloudTable Table = ConfigureAudioCityAzureTable.GetTableContainerInformation();
+
+            List<OrderEntity> SellerOrders = new List<OrderEntity>();
+
+            try
+            {
+                string SellerIdFilter = TableQuery.GenerateFilterCondition("SellerId", QueryComparisons.Equal, SellerId);
+                string CombinedFilter = null;
+
+                if (OrderStatus == "Completed")
+                {
+                    string OrderStatusFilter = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, OrderStatus);
+                    string OrderStatusFilter2 = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, "Archived");
+                    string OrderStatusFilter3 = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, "Rejected");
+
+                    string OrderStatusCombinedFilter = TableQuery.CombineFilters(OrderStatusFilter, TableOperators.Or, OrderStatusFilter2);
+                    string OrderStatusCombinedFilter2 = TableQuery.CombineFilters(OrderStatusCombinedFilter, TableOperators.Or, OrderStatusFilter3);
+                    CombinedFilter = TableQuery.CombineFilters(SellerIdFilter, TableOperators.And, OrderStatusCombinedFilter2);
+
+                }
+                else
+                {
+                    string OrderStatusFilter = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, OrderStatus);
+                    CombinedFilter = TableQuery.CombineFilters(SellerIdFilter, TableOperators.And, OrderStatusFilter);
+                }
+
+                TableQuery<OrderEntity> RetrieveActiveOrderQuery = new TableQuery<OrderEntity>().Where(CombinedFilter);
+
+                TableContinuationToken continuationToken = null;
+                do
+                {
+                    // Retrieve a segment (up to 1,000 entities).
+                    TableQuerySegment<OrderEntity> TableQueryResult = Table.ExecuteQuerySegmentedAsync(RetrieveActiveOrderQuery, continuationToken).Result;
+
+                    SellerOrders.AddRange(TableQueryResult.Results);
+
+                    continuationToken = TableQueryResult.ContinuationToken;
+                } while (continuationToken != null);
+
+                return SellerOrders;
+            }
+            catch (Exception Ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error occured when retrieving data from table storage: ", Ex.ToString());
+            }
+
+            return SellerOrders;
         }
 
         public static List<OrderEntity> GetGigActiveOrders(string GigId)
@@ -124,6 +187,51 @@ namespace AudioCity.Models
             }
 
             return GigActiveOrders;
+        }
+
+        public static void UpdateOrderStatus(OrderEntity Order, string OrderStatus)
+        {
+            CloudTable Table = ConfigureAudioCityAzureTable.GetTableContainerInformation();
+
+            Order.OrderStatus = OrderStatus;
+            Order.ETag = "*";
+            try
+            {
+                TableOperation UpdateOrderStatusOperation = TableOperation.Replace(Order);
+                Table.ExecuteAsync(UpdateOrderStatusOperation);
+            }
+            catch(Exception Ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error occured when updating data in table storage: ", Ex.ToString());
+            }
+        }
+
+        public static OrderEntity GetOrder(string GigId, string OrderId)
+        {
+            CloudTable Table = ConfigureAudioCityAzureTable.GetTableContainerInformation();
+
+            try
+            {
+                TableOperation RetrieveOrderOperation = TableOperation.Retrieve<OrderEntity>(GigId, OrderId);
+                TableResult RetrieveOrderResult = Table.ExecuteAsync(RetrieveOrderOperation).Result;
+
+                System.Diagnostics.Debug.WriteLine("e-tag: " + RetrieveOrderResult.Etag.ToString());
+
+                if (RetrieveOrderResult.Etag != null)
+                {
+                    var Order = RetrieveOrderResult.Result as OrderEntity;
+                    return Order;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch(Exception Ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error occured when retrieving order from table storage: ", Ex.ToString());
+                return null;
+            }
         }
 
     }

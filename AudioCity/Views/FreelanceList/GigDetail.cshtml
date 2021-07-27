@@ -25,11 +25,12 @@
                 var checkedStarCount = Model.RoundedRating;
                 var uncheckedStarCount = 5 - Model.RoundedRating;
 
-                var ratingInText = String.Format("{0:0.0}", Model.Gig.Rating);
+                var ratingInText = String.Format("{0:0.0}", Model.AverageRating);
 
                 for (int i = 0; i < checkedStarCount; i++)
                 {
                     <span class="fa fa-star checked"></span>
+
                 }
 
                 for (int i = 0; i < uncheckedStarCount; i++)
@@ -58,13 +59,20 @@
 
         <h3 style="font-weight:bold;margin-top:50px;" id="gig-rating-score-large">
 
-            @if (ViewBag.CustReviews != null)
+            @if (Model.CustomerReviews != null)
             {
-
+                if (Model.CustomerReviews.Count == 1)
+                {
+                    <span>@Model.CustomerReviews.Count Review</span>
+                }
+                else
+                {
+                    <span>@Model.CustomerReviews.Count Reviews</span>
+                }
             }
             else
             {
-                <span>0 Reviews</span>
+                <span>0 Review</span>
             }
 
             @{
@@ -86,18 +94,20 @@
         <hr />
         <div class="row">
 
-            @if (ViewBag.CustReviews != null)
+            @if (Model.CustomerReviews != null)
             {
 
-                foreach (int test in ViewBag.CustReviews) //later change to type CustReviewsViewModel
+                foreach (CustomerReviewEntity Review in Model.CustomerReviews) //later change to type CustReviewsViewModel
                 {
+                    var scoreInText = String.Format("{0:0.0}", Review.ReviewScore);
+
                     <div class="col-12">
                         <img src="~/static/profile-picture-example.jfif" style="width:34px;height:34px;border-radius:30px;" />
-                        <span style="padding-left:5px;font-weight:bold;">helenoftroy08</span>
+                        <span style="padding-left:5px;font-weight:bold;">@Review.CustomerName</span>
                         <span class="fa fa-star checked" style="margin-left: 5px;"></span>
-                        <span style="color:orange;">5.0</span>
-                        <p class="comment-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dictum dui erat. Donec tempus, justo sit amet rutrum iaculis, ligula quam fermentum dui, eget malesuada velit est eu ligula. Cras arcu risus, vestibulum auctor congue id, eleifend et purus.</p>
-                        <span style="padding-left:45px;color:rgba(0,0,0,.5);">Published Since 20/7/2021 10:29:15 PM</span>
+                        <span style="color:orange;">@scoreInText</span>
+                        <p class="comment-content">@Review.Comment</p>
+                        <span style="padding-left:45px;color:rgba(0,0,0,.5);">Published Since @Review.ReviewDate</span>
                         <hr />
                     </div>
                 }
@@ -116,7 +126,7 @@
         <div class="gig-detail-offer">
             <i class="fa fa-clock-o fa-2x"></i>
             <span style="position:relative;top:-5px;padding-left:8px">@Model.Gig.EstimatedDeliveryDays Days Delivery</span>
-            <form method="get" asp-controller="OrderPayment" asp-action="Index" asp-route-GigId="@Model.Gig.Id">
+            <form asp-controller="OrderPayment" asp-action="ConfirmPayment" asp-route-GigId="@Model.Gig.Id" asp-route-FromGigDetail="true">
                 @if (UserManager.GetUserId(User) == Model.Gig.CreatedBy)
                 {
                     <button type="submit" class="btn btn-primary" disabled>Continue (RM @Model.Gig.Price)</button>
