@@ -29,7 +29,7 @@ a.navbar-brand {
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #FE2C54;
 }
 
 .btn:hover {
@@ -43,10 +43,36 @@ a {
     margin-top:20px;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+.nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #FE2C54;
+    border-color: #FE2C54;
+}
+
+.nav-link {
+    color: #fff;
+    background-color: #FE2C54;
+    border-color: #FE2C54;
+}
+
+.nav-link.active {
+    color: #fff;
+    background-color: #1DBF73;
+    border-color: #FE2C54;
+}
+
+.nav-link:hover {
+    color: black;
+    background-color: #FE2C54;
+    border-color: #FE2C54;
+}
+
+li.nav-item {
+    padding: 10px;
+}
+
+.manage {
+    padding-left: 30px;
 }
 
 /* Sticky footer styles
@@ -548,6 +574,39 @@ tr.admin-table:hover {
 .freelancelist-card-container a {
     text-decoration:none;
     color:black;
+}
+
+.profile {
+    border: 1px solid black;
+    height: 110px;
+    width: 110px;
+    border-radius: 50%;
+    box-shadow: 2px 3px 10px black;
+    justify-content: center;
+    margin-left: 10px;
+    position: relative;
+    display: inline-block;
+}
+
+.profile-pic {
+    border-radius: 50%;
+    z-index: -1;
+    position: relative;
+    display: inline-block;
+}
+
+.img-top {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+}
+
+.profile:hover .img-top{
+    display:inline;
 }
 
 .comment-content {
