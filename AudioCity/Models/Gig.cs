@@ -31,5 +31,9 @@ namespace AudioCity.Models
 
         public string ArtistName { get; set; }
 
+        public double Rating { get; set; }
+
+        public int MaxOrderCount { get; set; }
+
     }
 }

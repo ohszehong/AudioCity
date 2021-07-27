@@ -1,0 +1,55 @@
+﻿@model AudioCity.Models.PaymentViewModel;
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@Html.AntiForgeryToken()
+<div class="create-new-gig-container">
+    <div class="row" style="margin:0;">
+        <div class="col-12" id="create-new-gig-form-col" style="height:900px;">
+            <div class="register-form" id="form-section">
+                <form asp-controller="OrderPayment" asp-action="ConfirmPayment" asp-route-GigId="@ViewBag.GigId" method="post">
+                    <h4 style="text-align:center;font-weight:bold;">Pay</h4>
+                    <hr />
+                    <div class="form-group">
+                        <label asp-for="OrderNote"></label>
+                        <textarea asp-for="OrderNote" class="form-control" placeholder="Order Note..." style="height:200px;"></textarea>
+                        <span asp-validation-for="OrderNote" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CardNumber"></label>
+                        <input asp-for="CardNumber" class="form-control" placeholder="Card Number" />
+                        <span asp-validation-for="CardNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CardHolderName"></label>
+                        <input asp-for="CardHolderName" class="form-control" placeholder="Card Holder Name" />
+                        <span asp-validation-for="CardHolderName" class="text-danger"></span>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-7">
+                            <label asp-for="CardExpiryDate"></label>
+                            <input asp-for="CardExpiryDate" class="form-control" placeholder="Expiry Date e.g. 03/23" />
+                            <span asp-validation-for="CardExpiryDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-5">
+                            <label asp-for="CardCVV"></label>
+                            <input asp-for="CardCVV" class="form-control" placeholder="CVV" />
+                            <span asp-validation-for="CardCVV" class="text-danger"></span>
+                        </div>
+                        @if (ViewBag.ErrorMessage != null)
+                        {
+                            <div style="margin-top:10px;" class="text-danger">
+                            @ViewBag.ErrorMessage
+                            </div>
+                        }
+                    </div>
+                    <button type="submit" class="btn btn-primary">Confirm</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
