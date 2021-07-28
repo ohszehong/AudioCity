@@ -33,9 +33,21 @@ namespace AudioCity.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Phone]
-            [Display(Name = "Phone number")]
-            public string PhoneNumber { get; set; }
+
+            [Required]
+            [StringLength(200, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 5)]
+            [Display(Name = "Full name")]
+            public string FullName { get; set; }
+
+            [Required]
+            [Display(Name = "Date of birth")]
+            [DataType(DataType.Date)]
+            public DateTime Dob { get; set; }
+
+            [Required]
+            [Display(Name = "Contact no.")]
+            [RegularExpression("^(01)[0-46-9]*[0-9]{7,8}$", ErrorMessage = "Invalid malaysia phone number.")]
+            public string ContactNo { get; set; }
         }
 
         private async Task LoadAsync(AudioCityUser user)
@@ -47,7 +59,9 @@ namespace AudioCity.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                FullName = user.FullName,
+                Dob = user.Dob,
+                ContactNo = user.ContactNo
             };
         }
 
@@ -78,15 +92,25 @@ namespace AudioCity.Areas.Identity.Pages.Account.Manage
             }
 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
+            if (Input.ContactNo != phoneNumber)
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.ContactNo);
                 if (!setPhoneResult.Succeeded)
                 {
                     StatusMessage = "Unexpected error when trying to set phone number.";
                     return RedirectToPage();
                 }
             }
+
+            if(Input.FullName != user.FullName)
+{
+                user.FullName = Input.FullName;
+            }
+            if (Input.Dob != user.Dob)
+            {
+                user.Dob = Input.Dob;
+            }
+            await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
