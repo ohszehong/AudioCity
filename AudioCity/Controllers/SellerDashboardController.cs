@@ -78,6 +78,14 @@ namespace AudioCity.Controllers
                 return View(CompletedOrders);
             }
 
+            else if(PartialPage == "_RevenuesPartial")
+            {
+                //do your things
+                //partition key = gig id 
+                //row key = order id 
+                return View();
+            }
+
             return View();
         }
 

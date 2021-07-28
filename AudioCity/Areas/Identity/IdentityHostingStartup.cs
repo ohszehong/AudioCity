@@ -20,7 +20,7 @@ namespace AudioCity.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("AudioCityContextConnection")));
 
-                services.AddDefaultIdentity<AudioCityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                services.AddDefaultIdentity<AudioCityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()    
                 .AddEntityFrameworkStores<AudioCityContext>();
             });

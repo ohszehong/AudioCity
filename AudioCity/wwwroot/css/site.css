@@ -29,7 +29,6 @@ a.navbar-brand {
 
 /* Provide sufficient contrast against white background */
 a {
-    color: #FE2C54;
 }
 
 .btn:hover {
@@ -43,28 +42,10 @@ a {
     margin-top:20px;
 }
 
-.nav-pills .show > .nav-link {
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: #fff;
-    background-color: #FE2C54;
-    border-color: #FE2C54;
-}
-
-.nav-link {
-    color: #fff;
-    background-color: #FE2C54;
-    border-color: #FE2C54;
-}
-
-.nav-link.active {
-    color: #fff;
-    background-color: #1DBF73;
-    border-color: #FE2C54;
-}
-
-.nav-link:hover {
-    color: black;
-    background-color: #FE2C54;
-    border-color: #FE2C54;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 li.nav-item {
@@ -576,6 +557,25 @@ tr.admin-table:hover {
     color:black;
 }
 
+.comment-content {
+    padding-top:15px;
+    padding-left:45px;
+}
+
+.search-tag {
+    border-style:solid;
+    border-width:thin;
+    background-color:#FE2C54;
+    color:white;
+    text-align:center;
+    height:40px;
+    font-size: 14px;
+    margin-left: 15px;
+    margin-top: 15px;
+    border-radius: 20px;
+    padding-top:7px;
+}
+
 .profile {
     border: 1px solid black;
     height: 110px;
@@ -636,4 +636,5 @@ tr.admin-table:hover {
 .order-description-container:hover {
     box-shadow: 15px 15px rgba(0,0,0,.25);
     cursor:pointer;
+}
 }
