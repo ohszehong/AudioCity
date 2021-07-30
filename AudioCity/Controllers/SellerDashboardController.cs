@@ -191,8 +191,9 @@ namespace AudioCity.Controllers
 
                 //after upload, change the order status to completed
                 OrderEntity Order = OrderEntityHelper.GetOrder(GigId, OrderId);
-                //also, update the content file path 
-                Order.UploadedContentFilePath = ContentBlobReference; 
+                //also, update the content file path and completed date 
+                Order.UploadedContentFilePath = ContentBlobReference;
+                Order.OrderCompleteDate = DateTime.Now;
                 OrderEntityHelper.UpdateOrderStatus(Order, OrderStatus.Completed.ToString());
 
                 //redirect back to ongoing order partial 
