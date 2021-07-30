@@ -4,4 +4,41 @@
 @{
 }
 
-<h1>This is revenue partial.</h1>
+@model List<AudioCity.Models.OrderEntity>
+<div>
+    <table class="admin-table">
+        <thead>
+            <tr class="admin-table-head">
+                <th class="admin-table">Order ID</th>
+                <th class="admin-table">Gig ID</th>
+                <th class="admin-table">Seller</th>
+                <th class="admin-table">Buyer</th>
+                <th class="admin-table">Completed Date</th>
+                <th class="admin-table">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() != 0)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr class="admin-table">
+                        <td class="admin-table">@item.PartitionKey</td>
+                        <td class="admin-table">@item.RowKey</td>
+                        <td class="admin-table">@item.SellerName</td>
+                        <td class="admin-table">@item.CustomerName</td>
+                        <td class="admin-table">@item.OrderCompleteDate</td>
+                        <td class="admin-table">@item.OrderPayment</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr class="admin-table">
+                    <td colspan="6" class="admin-table">No Record Found</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>

@@ -4,11 +4,10 @@
         <thead>
             <tr class="admin-table-head">
                 <th class="admin-table">Order ID</th>
-                <th class="admin-table">Gig ID/th>
+                <th class="admin-table">Gig ID</th>
                 <th class="admin-table">Seller</th>
-                <th class="admin-table">Buyer</th>
                 <th class="admin-table">Completed Date</th>
-                <th class="admin-table">Price</th>
+                <th class="admin-table">Revenue</th>
             </tr>
         </thead>
         <tbody>
@@ -19,8 +18,6 @@
                     <tr class="admin-table">
                         <td class="admin-table">@item.PartitionKey</td>
                         <td class="admin-table">@item.RowKey</td>
-                        <td class="admin-table">@item.SellerName</td>
-                        <td class="admin-table">@item.CustomerName</td>
                         <td class="admin-table">@item.OrderCompleteDate</td>
                         <td class="admin-table">@item.OrderPayment</td>
                     </tr>
