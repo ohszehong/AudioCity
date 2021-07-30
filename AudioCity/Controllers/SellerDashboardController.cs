@@ -83,7 +83,7 @@ namespace AudioCity.Controllers
                 //do your things
                 //partition key = gig id 
                 //row key = order id 
-                List<OrderEntity> CompletedOrders = OrderEntityHelper.GetSellerOrders(UserId, OrderStatus.Completed.ToString());
+                List<OrderEntity> CompletedOrders = OrderEntityHelper.GetAllRevenueOrder();
                 return View(CompletedOrders);
             }
 
