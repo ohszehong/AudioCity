@@ -25,7 +25,7 @@ namespace AudioCity.Controllers
 
         public List<OrderEntity> GetCompleteOrder()
         {
-            List<OrderEntity> CO = OrderEntityHelper.GetAllPendingOrder();
+            List<OrderEntity> CO = OrderEntityHelper.GetAllCompleteOrder();
 
             return CO;
         }

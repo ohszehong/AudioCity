@@ -275,7 +275,7 @@ namespace AudioCity.Models
 
             try
             {
-                string OrderStatusFilter = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, "Archived");
+                string OrderStatusFilter = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, "Completed");
 
                 TableQuery<OrderEntity> RetrieveActiveOrderQuery = new TableQuery<OrderEntity>().Where(OrderStatusFilter);
 
@@ -298,6 +298,42 @@ namespace AudioCity.Models
             }
 
             return CompleteOrders;
+        }
+
+        public static List<OrderEntity> GetAllRevenueOrder()
+        {
+            CloudTable Table = ConfigureAudioCityAzureTable.GetTableContainerInformation();
+
+            List<OrderEntity> PendingOrders = new List<OrderEntity>();
+
+            try
+            {
+                string PendingOrderFilter = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, OrderStatus.Completed.ToString());
+                string OngoingOrderFilter = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, OrderStatus.Archived.ToString());
+
+                string CombinedOrderFilters = TableQuery.CombineFilters(PendingOrderFilter, TableOperators.Or, OngoingOrderFilter);
+
+                TableQuery<OrderEntity> RetrieveActiveOrderQuery = new TableQuery<OrderEntity>().Where(CombinedOrderFilters);
+
+                TableContinuationToken continuationToken = null;
+                do
+                {
+                    // Retrieve a segment (up to 1,000 entities).
+                    TableQuerySegment<OrderEntity> TableQueryResult = Table.ExecuteQuerySegmentedAsync(RetrieveActiveOrderQuery, continuationToken).Result;
+
+                    PendingOrders.AddRange(TableQueryResult.Results);
+
+                    continuationToken = TableQueryResult.ContinuationToken;
+                } while (continuationToken != null);
+
+                return PendingOrders;
+            }
+            catch (Exception Ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error occured when retrieving data from table storage: ", Ex.ToString());
+            }
+
+            return PendingOrders;
         }
 
     }
