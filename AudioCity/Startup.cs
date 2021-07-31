@@ -15,6 +15,8 @@ using Microsoft.Extensions.Azure;
 using Azure.Storage.Queues;
 using Azure.Storage.Blobs;
 using Azure.Core.Extensions;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 
 namespace AudioCity
 {
@@ -37,6 +39,25 @@ namespace AudioCity
                 builder.AddBlobServiceClient(Configuration["audiocitystorage:blob"], preferMsi: true);
                 builder.AddQueueServiceClient(Configuration["audiocitystorage:queue"], preferMsi: true);
             });
+
+            services.AddAuthentication().AddGoogle("google", options =>
+            {
+                var GoogleAuth = Configuration.GetSection("Authentication:Google");
+
+                options.ClientId = GoogleAuth["ClientId"];
+                options.ClientSecret = GoogleAuth["ClientSecret"];
+                options.SignInScheme = IdentityConstants.ExternalScheme;
+
+                options.Events.OnCreatingTicket = (context) =>
+                {
+                    var picture = context.User.GetProperty("picture").GetString();
+
+                    context.Identity.AddClaim(new Claim("picture", picture));
+
+                    return Task.CompletedTask;
+                };
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

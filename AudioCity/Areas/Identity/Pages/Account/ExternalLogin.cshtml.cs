@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authentication;
 
 namespace AudioCity.Areas.Identity.Pages.Account
 {
@@ -43,6 +44,7 @@ namespace AudioCity.Areas.Identity.Pages.Account
         public string ProviderDisplayName { get; set; }
 
         public string ReturnUrl { get; set; }
+
 
         [TempData]
         public string ErrorMessage { get; set; }
@@ -122,11 +124,28 @@ namespace AudioCity.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new AudioCityUser { UserName = Input.Email, Email = Input.Email };
+                //default profile picture 
+                //byte[] ProfilePicture = System.IO.File.ReadAllBytes("wwwroot/static/profile-picture-example.jfif");
+
+                var GoogleProfilePicture = info.Principal.FindFirstValue("picture");
+
+                //using webclient to download the profile image and convert it into byte[] array 
+                var WebClient = new System.Net.WebClient();
+                byte[] GoogleProfilePictureBytes = WebClient.DownloadData(GoogleProfilePicture);
+
+                string FirstName = info.Principal.FindFirstValue(ClaimTypes.GivenName);
+                string LastName = info.Principal.FindFirstValue(ClaimTypes.Surname);
+                string FullName = FirstName + " " + LastName;
+                string ContactNo = info.Principal.FindFirstValue(ClaimTypes.MobilePhone);
+
+
+                var user = new AudioCityUser { UserName = Input.Email, Email = Input.Email, EmailConfirmed = true, FullName = FullName, ContactNo = ContactNo, Role = "Customer", ProfilePicture = GoogleProfilePictureBytes };
 
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, Roles.Customer.ToString());
+
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {

@@ -1,0 +1,25 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+@Html.AntiForgeryToken()
+<div class="create-new-gig-container">
+    <div class="row" style="margin:0;">
+        <div class="col-12" id="create-new-gig-form-col" style="height:900px;">
+            <div class="register-form" id="form-section">
+                <form asp-action="DeleteGig" asp-route-GigId="@ViewBag.GigId">
+                    <h4 style="text-align:center;font-weight:bold;">Delete Gig</h4>
+                    <hr />
+                    
+                    <p class="text-danger" style="text-align:center;">Are you sure you want to delete this Gig?</p>
+
+                    <button type="submit" class="btn btn-primary" style="margin-bottom:15px;">Confirm</button>
+                </form>
+                <a style="text-decoration:none;" asp-controller="FreelanceList" asp-action="GigDetail" asp-route-GigId="@ViewBag.GigId"><button class="btn btn-danger btn-block">Cancel</button></a>
+            </div>
+        </div>
+    </div>
+</div>

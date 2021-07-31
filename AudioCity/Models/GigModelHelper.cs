@@ -256,6 +256,48 @@ namespace AudioCity.Models
             }
         }
 
+        public static void UpdateGigDetail(string GigId, string Title, string Description, int EstimatedDeliveryDays, double Price, string Category, string ThumbnailReference, string PortfolioReference, int MaxOrderCount)
+        {
+            using (var conn = new SqlConnection(Configure["ConnectionStrings:AudioCityGigDatabaseConnection"]))
+            using (var cmd = new SqlCommand("", connection: conn))
+            {
+                conn.Open();
+                cmd.CommandText = "update Gigs set Title=@GigTitle, Description=@GigDescription, EstimatedDeliveryDays=@GigEstimatedDeliveryDays, Price=@GigPrice, Category=@GigCategory, Thumbnail=@GigThumbnailRef, PortfolioFilePath=@GigPortfolioRef, MaxOrderCount=@GigMaxOrderCount where Id=@GigId";
+                cmd.Parameters.AddWithValue("@GigTitle", Title);
+                cmd.Parameters.AddWithValue("@GigDescription", Description);
+                cmd.Parameters.AddWithValue("@GigEstimatedDeliveryDays", EstimatedDeliveryDays);
+                cmd.Parameters.AddWithValue("@GigPrice", Price);
+                cmd.Parameters.AddWithValue("@GigCategory", Category);
+                cmd.Parameters.AddWithValue("@GigThumbnailRef", ThumbnailReference);
+                cmd.Parameters.AddWithValue("@GigPortfolioRef", PortfolioReference);
+                cmd.Parameters.AddWithValue("@GigMaxOrderCount", MaxOrderCount);
+                cmd.Parameters.AddWithValue("@GigId", GigId);
+
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
+
+        public static void DeleteGig(string GigId)
+        {
+            using (var conn = new SqlConnection(Configure["ConnectionStrings:AudioCityGigDatabaseConnection"]))
+            using (var cmd = new SqlCommand("", connection: conn))
+            {
+                conn.Open();
+                cmd.CommandText = "delete from Gigs where Id=@Id";
+                cmd.Parameters.AddWithValue("@Id", GigId);
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
+
+
+        public static GigViewModel ConvertToGigViewModel(Gig Gig)
+        {
+            GigViewModel GigViewModel = new GigViewModel { Id = Gig.Id, Category = Gig.Category, Description = Gig.Description, EstimatedDeliveryDays = Gig.EstimatedDeliveryDays, MaxOrderCount = Gig.MaxOrderCount, Price = Gig.Price, Title = Gig.Title };
+            return GigViewModel;
+        }
+
         public static GigDetailViewModel ConvertToGigDetailViewModel(Gig Gig, AudioCityUser User)
         {
             //convert to GigDetailViewModel instance
