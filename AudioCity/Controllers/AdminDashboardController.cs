@@ -30,7 +30,7 @@ namespace AudioCity.Controllers
             return CO;
         }
 
-        public PartialViewResult SearchPendingOrder(string SearchText)
+        public PartialViewResult SearchOngoingOrder(string SearchText)
         {
             List<OrderEntity> PO = GetOngoingOrder();
             if(SearchText == null)

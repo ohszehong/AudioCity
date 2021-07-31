@@ -308,7 +308,7 @@ namespace AudioCity.Models
         {
             CloudTable Table = ConfigureAudioCityAzureTable.GetTableContainerInformation();
 
-            List<OrderEntity> PendingOrders = new List<OrderEntity>();
+            List<OrderEntity> RevenueOrders = new List<OrderEntity>();
 
             try
             {
@@ -327,19 +327,19 @@ namespace AudioCity.Models
                     // Retrieve a segment (up to 1,000 entities).
                     TableQuerySegment<OrderEntity> TableQueryResult = Table.ExecuteQuerySegmentedAsync(RetrieveActiveOrderQuery, continuationToken).Result;
 
-                    PendingOrders.AddRange(TableQueryResult.Results);
+                    RevenueOrders.AddRange(TableQueryResult.Results);
 
                     continuationToken = TableQueryResult.ContinuationToken;
                 } while (continuationToken != null);
 
-                return PendingOrders;
+                return RevenueOrders;
             }
             catch (Exception Ex)
             {
                 System.Diagnostics.Debug.WriteLine("Error occured when retrieving data from table storage: ", Ex.ToString());
             }
 
-            return PendingOrders;
+            return RevenueOrders;
         }
 
     }
