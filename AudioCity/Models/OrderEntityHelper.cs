@@ -275,11 +275,15 @@ namespace AudioCity.Models
 
             try
             {
-                string OrderStatusFilter = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, "Completed");
+                string CompletedOrderFilter = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, OrderStatus.Completed.ToString());
+                string ArchivedOrderFilter = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, OrderStatus.Archived.ToString());
 
-                TableQuery<OrderEntity> RetrieveActiveOrderQuery = new TableQuery<OrderEntity>().Where(OrderStatusFilter);
+                string CombinedOrderFilters = TableQuery.CombineFilters(CompletedOrderFilter, TableOperators.Or, ArchivedOrderFilter);
+
+                TableQuery<OrderEntity> RetrieveActiveOrderQuery = new TableQuery<OrderEntity>().Where(CombinedOrderFilters);
 
                 TableContinuationToken continuationToken = null;
+
                 do
                 {
                     // Retrieve a segment (up to 1,000 entities).
@@ -300,7 +304,7 @@ namespace AudioCity.Models
             return CompleteOrders;
         }
 
-        public static List<OrderEntity> GetAllRevenueOrder()
+        public static List<OrderEntity> GetAllRevenueOrder(string SellerId)
         {
             CloudTable Table = ConfigureAudioCityAzureTable.GetTableContainerInformation();
 
@@ -308,12 +312,14 @@ namespace AudioCity.Models
 
             try
             {
-                string PendingOrderFilter = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, OrderStatus.Completed.ToString());
-                string OngoingOrderFilter = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, OrderStatus.Archived.ToString());
+                string CompletedOrderFilter = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, OrderStatus.Completed.ToString());
+                string ArchivedOrderFilter = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, OrderStatus.Archived.ToString());
+                string SellerIdFilter = TableQuery.GenerateFilterCondition("SellerId", QueryComparisons.Equal, SellerId);
 
-                string CombinedOrderFilters = TableQuery.CombineFilters(PendingOrderFilter, TableOperators.Or, OngoingOrderFilter);
+                string CombinedOrderFilters = TableQuery.CombineFilters(CompletedOrderFilter, TableOperators.Or, ArchivedOrderFilter);
+                string CombinedFilters = TableQuery.CombineFilters(SellerIdFilter, TableOperators.And, CombinedOrderFilters);
 
-                TableQuery<OrderEntity> RetrieveActiveOrderQuery = new TableQuery<OrderEntity>().Where(CombinedOrderFilters);
+                TableQuery<OrderEntity> RetrieveActiveOrderQuery = new TableQuery<OrderEntity>().Where(CombinedFilters);
 
                 TableContinuationToken continuationToken = null;
                 do

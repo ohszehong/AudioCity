@@ -91,17 +91,6 @@ namespace AudioCity.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.ContactNo != phoneNumber)
-            {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.ContactNo);
-                if (!setPhoneResult.Succeeded)
-                {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
-                    return RedirectToPage();
-                }
-            }
-
             if(Input.FullName != user.FullName)
 {
                 user.FullName = Input.FullName;
@@ -109,6 +98,10 @@ namespace AudioCity.Areas.Identity.Pages.Account.Manage
             if (Input.Dob != user.Dob)
             {
                 user.Dob = Input.Dob;
+            }
+            if (Input.ContactNo != user.ContactNo)
+            {
+                user.ContactNo = Input.ContactNo;
             }
             await _userManager.UpdateAsync(user);
 
