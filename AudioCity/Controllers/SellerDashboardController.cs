@@ -31,6 +31,14 @@ namespace AudioCity.Controllers
             ViewBag.UserId = _userManager.GetUserId(HttpContext.User);
             ViewBag.PartialPage = PartialPage;
 
+            //get all the orders 
+            //maybe can use cache at here 
+            List<OrderEntity> PendingOrders = OrderEntityHelper.GetSellerOrders(UserId, OrderStatus.PendingAccept.ToString());
+            List<OrderEntity> OngoingOrders = OrderEntityHelper.GetSellerOrders(UserId, OrderStatus.Ongoing.ToString());
+
+            ViewBag.PendingOrdersCount = PendingOrders.Count;
+            ViewBag.OngoingOrdersCount = OngoingOrders.Count;
+
             if (PartialPage == "_ActiveGigsPartial")
             {
                 //read gigs data created by this seller 
@@ -59,22 +67,17 @@ namespace AudioCity.Controllers
 
             else if(PartialPage == "_NewOrdersPartial")
             {
-                List<OrderEntity> PendingOrders = OrderEntityHelper.GetSellerOrders(UserId, OrderStatus.PendingAccept.ToString());
-                ViewBag.PendingOrdersCount = PendingOrders.Count;
                 return View(PendingOrders);
             }
 
             else if(PartialPage == "_OnGoingOrdersPartial")
             {
-                List<OrderEntity> OngoingOrders = OrderEntityHelper.GetSellerOrders(UserId, OrderStatus.Ongoing.ToString());
-                ViewBag.OngoingOrdersCount = OngoingOrders.Count;
                 return View(OngoingOrders);
             }
 
             else if(PartialPage == "_OrderHistoryPartial")
             {
                 List<OrderEntity> CompletedOrders = OrderEntityHelper.GetSellerOrders(UserId, OrderStatus.Completed.ToString());
-                ViewBag.CompletedOrdersCount = CompletedOrders.Count;
                 return View(CompletedOrders);
             }
 
@@ -83,7 +86,8 @@ namespace AudioCity.Controllers
                 //do your things
                 //partition key = gig id 
                 //row key = order id 
-                return View();
+                List<OrderEntity> CompletedOrders = OrderEntityHelper.GetAllRevenueOrder();
+                return View(CompletedOrders);
             }
 
             return View();
@@ -190,8 +194,9 @@ namespace AudioCity.Controllers
 
                 //after upload, change the order status to completed
                 OrderEntity Order = OrderEntityHelper.GetOrder(GigId, OrderId);
-                //also, update the content file path 
-                Order.UploadedContentFilePath = ContentBlobReference; 
+                //also, update the content file path and completed date 
+                Order.UploadedContentFilePath = ContentBlobReference;
+                Order.OrderCompleteDate = DateTime.Now;
                 OrderEntityHelper.UpdateOrderStatus(Order, OrderStatus.Completed.ToString());
 
                 //redirect back to ongoing order partial 

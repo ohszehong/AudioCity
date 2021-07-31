@@ -234,5 +234,111 @@ namespace AudioCity.Models
             }
         }
 
+        public static List<OrderEntity> GetAllPendingOrder()
+        {
+            CloudTable Table = ConfigureAudioCityAzureTable.GetTableContainerInformation();
+
+            List<OrderEntity> PendingOrders = new List<OrderEntity>();
+
+            try
+            {
+                string OrderStatusFilter = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, "Ongoing");
+
+                TableQuery<OrderEntity> RetrieveActiveOrderQuery = new TableQuery<OrderEntity>().Where(OrderStatusFilter);
+
+                TableContinuationToken continuationToken = null;
+                do
+                {
+                    // Retrieve a segment (up to 1,000 entities).
+                    TableQuerySegment<OrderEntity> TableQueryResult = Table.ExecuteQuerySegmentedAsync(RetrieveActiveOrderQuery, continuationToken).Result;
+
+                    PendingOrders.AddRange(TableQueryResult.Results);
+
+                    continuationToken = TableQueryResult.ContinuationToken;
+                } while (continuationToken != null);
+
+                return PendingOrders;
+            }
+            catch (Exception Ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error occured when retrieving data from table storage: ", Ex.ToString());
+            }
+
+            return PendingOrders;
+        }
+
+        public static List<OrderEntity> GetAllCompleteOrder()
+        {
+            CloudTable Table = ConfigureAudioCityAzureTable.GetTableContainerInformation();
+
+            List<OrderEntity> CompleteOrders = new List<OrderEntity>();
+
+            try
+            {
+                string CompletedOrderFilter = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, OrderStatus.Completed.ToString());
+                string ArchivedOrderFilter = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, OrderStatus.Archived.ToString());
+
+                string CombinedOrderFilters = TableQuery.CombineFilters(CompletedOrderFilter, TableOperators.Or, ArchivedOrderFilter);
+
+                TableQuery<OrderEntity> RetrieveActiveOrderQuery = new TableQuery<OrderEntity>().Where(CombinedOrderFilters);
+
+                TableContinuationToken continuationToken = null;
+
+                do
+                {
+                    // Retrieve a segment (up to 1,000 entities).
+                    TableQuerySegment<OrderEntity> TableQueryResult = Table.ExecuteQuerySegmentedAsync(RetrieveActiveOrderQuery, continuationToken).Result;
+
+                    CompleteOrders.AddRange(TableQueryResult.Results);
+
+                    continuationToken = TableQueryResult.ContinuationToken;
+                } while (continuationToken != null);
+
+                return CompleteOrders;
+            }
+            catch (Exception Ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error occured when retrieving data from table storage: ", Ex.ToString());
+            }
+
+            return CompleteOrders;
+        }
+
+        public static List<OrderEntity> GetAllRevenueOrder()
+        {
+            CloudTable Table = ConfigureAudioCityAzureTable.GetTableContainerInformation();
+
+            List<OrderEntity> PendingOrders = new List<OrderEntity>();
+
+            try
+            {
+                string CompletedOrderFilter = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, OrderStatus.Completed.ToString());
+                string ArchivedOrderFilter = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, OrderStatus.Archived.ToString());
+
+                string CombinedOrderFilters = TableQuery.CombineFilters(CompletedOrderFilter, TableOperators.Or, ArchivedOrderFilter);
+
+                TableQuery<OrderEntity> RetrieveActiveOrderQuery = new TableQuery<OrderEntity>().Where(CombinedOrderFilters);
+
+                TableContinuationToken continuationToken = null;
+                do
+                {
+                    // Retrieve a segment (up to 1,000 entities).
+                    TableQuerySegment<OrderEntity> TableQueryResult = Table.ExecuteQuerySegmentedAsync(RetrieveActiveOrderQuery, continuationToken).Result;
+
+                    PendingOrders.AddRange(TableQueryResult.Results);
+
+                    continuationToken = TableQueryResult.ContinuationToken;
+                } while (continuationToken != null);
+
+                return PendingOrders;
+            }
+            catch (Exception Ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error occured when retrieving data from table storage: ", Ex.ToString());
+            }
+
+            return PendingOrders;
+        }
+
     }
 }

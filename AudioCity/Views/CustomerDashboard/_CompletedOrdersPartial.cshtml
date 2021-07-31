@@ -12,7 +12,7 @@
     {
         @foreach (OrderEntity Order in Model)
         {
-            <div class="row order-description-container" style="width:98%;text-decoration:none;margin-bottom:35px;">
+            <div class="row order-description-container" style="width:93%;text-decoration:none;margin-bottom:35px;">
 
                 <a class="col-lg-4" style="padding-left:0;" asp-controller="FreelanceList" asp-action="GigDetail" asp-route-GigId="@Order.PartitionKey">
                     <div style="background-image:url('@Order.OrderThumbnailUri');background-size:cover;background-position:center;min-height:200px;height:100%;">
@@ -27,7 +27,7 @@
                     <div style="color:#62646a;">Estimated delivery date: @Order.OrderDueDate</div>
                     <div style="color:#62646a;">Total paid: RM@(Order.OrderPayment)</div>
                     <br />
-                    <div style="color:#62646a;margin-bottom:15px;">Order status: <span class="text-success">Completed</span></div>
+                    <div style="color:#62646a;margin-bottom:15px;">Order status: <span class="text-success">Completed</span><div>Completed date: @Order.OrderCompleteDate</div></div>
                     <div style="width:100%;text-align:right;margin-bottom:15px;">
 
                         <form style="display:inline-block;" method="post" asp-controller="DownloadContent" asp-action="DownloadFile">
@@ -42,5 +42,10 @@
             </div>
         }
     }
+    else
+    {
+        <div class="no-result-indicator"><div style="margin-bottom:15px;color:dimgray;">No result</div><img src="~/static/box.png" /></div>
+    }
+
 
 </div>

@@ -12,22 +12,46 @@
                     <li class="nav-item partial-nav">
                         @if (ViewBag.PendingOrdersCount > 0)
                         {
-                            <a class="nav-link" style="color:#FE2C54;" asp-controller="CustomerDashboard" asp-action="Index" asp-route-Id="@ViewBag.UserId" asp-route-PartialPage="_PendingOrdersPartial">PENDING ORDERS (@ViewBag.PendingOrdersCount)</a>
+                            <a class="nav-link" style="color:#FE2C54;" asp-controller="CustomerDashboard" asp-action="Index" asp-route-Id="@ViewBag.UserId" asp-route-PartialPage="_PendingOrdersPartial">PENDING ORDERS <div class="count-indicator">@ViewBag.PendingOrdersCount</div></a>
                         }
                         else
                         {
                             <a class="nav-link" asp-controller="CustomerDashboard" asp-action="Index" asp-route-Id="@ViewBag.UserId" asp-route-PartialPage="_PendingOrdersPartial">PENDING ORDERS</a>
                         }
+                    </li>
 
-                    </li>
                     <li class="nav-item partial-nav">
-                        <a class="nav-link" asp-controller="CustomerDashboard" asp-action="Index" asp-route-Id="@ViewBag.UserId" asp-route-PartialPage="_ActiveOrdersPartial">ACTIVE ORDERS</a>
+                        @if (ViewBag.OngoingOrdersCount > 0)
+                        {
+                            <a class="nav-link" asp-controller="CustomerDashboard" asp-action="Index" asp-route-Id="@ViewBag.UserId" asp-route-PartialPage="_ActiveOrdersPartial">ACTIVE ORDERS <div class="count-indicator">@ViewBag.OngoingOrdersCount</div></a>
+                        }
+                        else
+                        {
+                            <a class="nav-link" asp-controller="CustomerDashboard" asp-action="Index" asp-route-Id="@ViewBag.UserId" asp-route-PartialPage="_ActiveOrdersPartial">ACTIVE ORDERS</a>
+                        }
                     </li>
+
                     <li class="nav-item partial-nav">
-                        <a class="nav-link" asp-controller="CustomerDashboard" asp-action="Index" asp-route-Id="@ViewBag.UserId" asp-route-PartialPage="_RejectedOrdersPartial">REJECTED ORDERS</a>
+                        @if (ViewBag.RejectedOrdersCount > 0)
+                        {
+                            <a class="nav-link" asp-controller="CustomerDashboard" asp-action="Index" asp-route-Id="@ViewBag.UserId" asp-route-PartialPage="_RejectedOrdersPartial">REJECTED ORDERS <div class="count-indicator">@ViewBag.RejectedOrdersCount</div></a>
+                        }
+                        else
+                        {
+                            <a class="nav-link" asp-controller="CustomerDashboard" asp-action="Index" asp-route-Id="@ViewBag.UserId" asp-route-PartialPage="_RejectedOrdersPartial">REJECTED ORDERS</a>
+                        }
                     </li>
+
                     <li class="nav-item partial-nav">
-                        <a class="nav-link" asp-controller="CustomerDashboard" asp-action="Index" asp-route-Id="@ViewBag.UserId" asp-route-PartialPage="_CompletedOrdersPartial">COMPLETED ORDERS</a>
+                        @if (ViewBag.CompletedOrdersCount > 0)
+                        {
+                            <a class="nav-link" asp-controller="CustomerDashboard" asp-action="Index" asp-route-Id="@ViewBag.UserId" asp-route-PartialPage="_CompletedOrdersPartial">COMPLETED ORDERS <div class="count-indicator">@ViewBag.CompletedOrdersCount</div></a>
+                        }
+                        else
+                        {
+                            <a class="nav-link" asp-controller="CustomerDashboard" asp-action="Index" asp-route-Id="@ViewBag.UserId" asp-route-PartialPage="_CompletedOrdersPartial">COMPLETED ORDERS</a>
+                        }
+
                     </li>
                     <li class="nav-item partial-nav">
                         <a class="nav-link" asp-controller="CustomerDashboard" asp-action="Index" asp-route-Id="@ViewBag.UserId" asp-route-PartialPage="_OrderHistoryPartial">ORDER HISTORY</a>
@@ -47,32 +71,32 @@
 
     if ('@ViewBag.PartialPage' === "_PendingOrdersPartial") {
         for (i = 0; i < navItemList.length; i++) {
-            navItemList[i].classList.remove("active");
+            navItemList[i].classList.remove("dashboard-nav-active");
         }
-        navItemList[0].classList.add("active");
+        navItemList[0].classList.add("dashboard-nav-active");
     }
     else if ('@ViewBag.PartialPage' === "_ActiveOrdersPartial") {
         for (i = 0; i < navItemList.length; i++) {
-            navItemList[i].classList.remove("active");
+            navItemList[i].classList.remove("dashboard-nav-active");
         }
-        navItemList[1].classList.add("active");
+        navItemList[1].classList.add("dashboard-nav-active");
     }
     else if ('@ViewBag.PartialPage' === "_RejectedOrdersPartial") {
         for (i = 0; i < navItemList.length; i++) {
-            navItemList[i].classList.remove("active");
+            navItemList[i].classList.remove("dashboard-nav-active");
         }
-        navItemList[2].classList.add("active");
+        navItemList[2].classList.add("dashboard-nav-active");
     }
     else if ('@ViewBag.PartialPage' === "_CompletedOrdersPartial") {
         for (i = 0; i < navItemList.length; i++) {
-            navItemList[i].classList.remove("active");
+            navItemList[i].classList.remove("dashboard-nav-active");
         }
-        navItemList[3].classList.add("active");
+        navItemList[3].classList.add("dashboard-nav-active");
     }
     else if ('@ViewBag.PartialPage' === "_OrderHistoryPartial") {
         for (i = 0; i < navItemList.length; i++) {
-            navItemList[i].classList.remove("active");
+            navItemList[i].classList.remove("dashboard-nav-active");
         }
-        navItemList[4].classList.add("active");
+        navItemList[4].classList.add("dashboard-nav-active");
     }
 </script>

@@ -9,6 +9,17 @@
     }
 }
 
+@inject SignInManager<AudioCityUser> SignInManager
+@inject UserManager<AudioCityUser> UserManager
+
+@{ 
+    AudioCityUser CurrentUser = await UserManager.GetUserAsync(User);
+
+    //convert byte[] profile picture to base64 
+    string ProfilePictureBase64 = System.Convert.ToBase64String(CurrentUser.ProfilePicture);
+}
+
+
 <h2 class="manage" style="padding-top: 30px">Manage your account</h2>
 
 <div class="manage">
@@ -16,9 +27,16 @@
     <hr />
     <div class="row">
         <div class="col-md-3">
-            <div class="profile">
-                <img src="" width="110" height="110" class="profile-pic" />
-                <img src="~/static/camera.png" width="110" height="110" class="img-top" />
+            <div class="profile-container">
+                <form class="profile" method="post" id="profile-picture-form" enctype="multipart/form-data" asp-controller="ProfilePicture" asp-action="UpdateProfilePicture">
+                    <label for="profile-picture" class="profile-label">
+                        @if (ProfilePictureBase64 != null)
+                        {
+                            <img src="data:image/*;base64,@ProfilePictureBase64" style="height:100%;width:100%;border-radius:50%;" />
+                        }
+                    </label>
+                    <input style="display:none;" type="file" name="ProfilePicture" id="profile-picture" />
+                </form>
             </div>
             <partial name="_ManageNav" />
         </div>
@@ -27,6 +45,14 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    document.getElementById("profile-picture").onchange = function () {
+        document.getElementById("profile-picture-form").submit();
+    };
+
+</script>
 
 @section Scripts {
     @RenderSection("Scripts", required: false)
