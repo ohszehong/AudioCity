@@ -304,7 +304,7 @@ namespace AudioCity.Models
             return CompleteOrders;
         }
 
-        public static List<OrderEntity> GetAllRevenueOrder()
+        public static List<OrderEntity> GetAllRevenueOrder(string SellerId)
         {
             CloudTable Table = ConfigureAudioCityAzureTable.GetTableContainerInformation();
 
@@ -314,10 +314,12 @@ namespace AudioCity.Models
             {
                 string CompletedOrderFilter = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, OrderStatus.Completed.ToString());
                 string ArchivedOrderFilter = TableQuery.GenerateFilterCondition("OrderStatus", QueryComparisons.Equal, OrderStatus.Archived.ToString());
+                string SellerIdFilter = TableQuery.GenerateFilterCondition("SellerId", QueryComparisons.Equal, SellerId);
 
                 string CombinedOrderFilters = TableQuery.CombineFilters(CompletedOrderFilter, TableOperators.Or, ArchivedOrderFilter);
+                string CombinedFilters = TableQuery.CombineFilters(SellerIdFilter, TableOperators.And, CombinedOrderFilters);
 
-                TableQuery<OrderEntity> RetrieveActiveOrderQuery = new TableQuery<OrderEntity>().Where(CombinedOrderFilters);
+                TableQuery<OrderEntity> RetrieveActiveOrderQuery = new TableQuery<OrderEntity>().Where(CombinedFilters);
 
                 TableContinuationToken continuationToken = null;
                 do

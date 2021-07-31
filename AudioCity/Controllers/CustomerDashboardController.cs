@@ -75,12 +75,29 @@ namespace AudioCity.Controllers
             ViewBag.GigId = GigId;
             ViewBag.OrderId = OrderId;
 
+            //check if the gig has been deleted, if yes, tell the customer about it and do not need to update rating 
+            Gig Gig = GigModelHelper.GetGig(GigId);
+
+            if(Gig.Id == null)
+            {
+                //automatically archived the order 
+                OrderEntity Order = OrderEntityHelper.GetOrder(GigId, OrderId);
+                OrderEntityHelper.UpdateOrderStatus(Order, OrderStatus.Archived.ToString());
+
+                return RedirectToAction("InformedGigDeleted");
+            }
+
             if (TempData["ErrorMessage"] != null)
             {
                 ViewBag.ErrorMessage = TempData["ErrorMessage"];
                 TempData["ErrorMessage"] = null;
             }
 
+            return View();
+        }
+
+        public IActionResult InformedGigDeleted()
+        {
             return View();
         }
 
