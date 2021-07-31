@@ -95,7 +95,10 @@ namespace AudioCity.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new AudioCityUser { UserName = Input.Email, Email = Input.Email, FullName = Input.FullName, Dob = Input.Dob, ContactNo = Input.ContactNo, Role = Input.Role };
+                //default profile picture 
+                byte[] ProfilePicture = System.IO.File.ReadAllBytes("wwwroot/static/profile-picture-example.jfif");
+
+                var user = new AudioCityUser { UserName = Input.Email, Email = Input.Email, FullName = Input.FullName, Dob = Input.Dob, ContactNo = Input.ContactNo, Role = Input.Role, ProfilePicture = ProfilePicture};
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

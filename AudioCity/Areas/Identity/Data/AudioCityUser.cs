@@ -22,5 +22,8 @@ namespace AudioCity.Areas.Identity.Data
         [PersonalData]
         public string Role { get; set; }
 
+        [PersonalData]
+        public byte[] ProfilePicture { get; set; }
+
     }
 }
