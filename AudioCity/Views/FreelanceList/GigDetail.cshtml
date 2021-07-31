@@ -12,153 +12,174 @@
 @inject UserManager<AudioCityUser> UserManager
 
 @{
-    AudioCityUser GigSeller = await UserManager.FindByIdAsync(Model.Gig.CreatedBy);
+    string ProfilePictureBase64 = "";
 
-    //convert byte[] profile picture to base64
-    string ProfilePictureBase64 = System.Convert.ToBase64String(GigSeller.ProfilePicture);
+    if (Model != null)
+    {
+        AudioCityUser GigSeller = await UserManager.FindByIdAsync(Model.Gig.CreatedBy);
+
+        //convert byte[] profile picture to base64
+        ProfilePictureBase64 = System.Convert.ToBase64String(GigSeller.ProfilePicture);
+    }
 }
 
+@if (Model == null)
+{
+    <div style="color:dimgray" class="deleted-gig-label">&nbsp; The Gig has been deleted :(</div>
+    <div class="deleted-gig"></div>
+}
+else
+{
 
-<div class="row" style="padding:70px;margin:0;padding-right:45px;">
-    <div class="col-lg-8 gig-detail-left-panel">
-        <h1 style="font-weight:bold;">
-            @Model.Gig.Title
-        </h1>
-        <img src="data:image/*;base64,@ProfilePictureBase64" class="gig-detail-profile-picture-small" />
-        <div class="gig-detail-seller-name" id="gig-rating-score-small">
-            @Model.Gig.ArtistName
+    <div class="row" style="padding:70px;margin:0;padding-right:45px;">
+        <div class="col-lg-8 gig-detail-left-panel">
+            <h1 style="font-weight:bold;">
+                @Model.Gig.Title
+            </h1>
+            <img src="data:image/*;base64,@ProfilePictureBase64" class="gig-detail-profile-picture-small" />
+            <div class="gig-detail-seller-name" id="gig-rating-score-small">
+                @Model.Gig.ArtistName
 
-            @{
-                var checkedStarCount = Model.RoundedRating;
-                var uncheckedStarCount = 5 - Model.RoundedRating;
+                @{
+                    var checkedStarCount = Model.RoundedRating;
+                    var uncheckedStarCount = 5 - Model.RoundedRating;
 
-                var ratingInText = String.Format("{0:0.0}", Model.AverageRating);
+                    var ratingInText = String.Format("{0:0.0}", Model.AverageRating);
 
-                for (int i = 0; i < checkedStarCount; i++)
-                {
-                    <span class="fa fa-star checked"></span>
+                    for (int i = 0; i < checkedStarCount; i++)
+                    {
+                        <span class="fa fa-star checked"></span>
+
+                    }
+
+                    for (int i = 0; i < uncheckedStarCount; i++)
+                    {
+                        <span class="fa fa-star"></span>
+                    }
+
+                    <span style="color:orange;">@ratingInText</span>
 
                 }
 
-                for (int i = 0; i < uncheckedStarCount; i++)
+            </div>
+            <div style="color:rgba(0,0,0,.5)">Published Since @Model.Gig.PublishedOn</div>
+            <video style="width:100%;height:400px;margin-top:25px;margin-bottom:50px;" controls>
+                <source src="@Model.Portfolio.Uri">
+                Your browser does not support the video tag.
+            </video>
+            <h3 style="font-weight:bold;">About This Gig</h3>
+
+            <pre class="gig-detail-description">@Model.Gig.Description</pre>
+            <hr />
+            <div style="font-size:20px;color:dimgray;">Category</div>
+            <div>@Model.Gig.Category</div>
+            <div style="font-size:20px;color:dimgray;margin-top:15px;">Contact Me</div>
+            <div>@Model.User.ContactNo</div>
+
+            <h3 style="font-weight:bold;margin-top:50px;" id="gig-rating-score-large">
+
+                @if (Model.CustomerReviews != null)
                 {
-                    <span class="fa fa-star"></span>
-                }
-
-                <span style="color:orange;">@ratingInText</span>
-
-            }
-
-        </div>
-        <div style="color:rgba(0,0,0,.5)">Published Since @Model.Gig.PublishedOn</div>
-        <video style="width:100%;height:400px;margin-top:25px;margin-bottom:50px;" controls>
-            <source src="@Model.Portfolio.Uri">
-            Your browser does not support the video tag.
-        </video>
-        <h3 style="font-weight:bold;">About This Gig</h3>
-
-        <pre class="gig-detail-description">@Model.Gig.Description</pre>
-        <hr />
-        <div style="font-size:20px;color:dimgray;">Category</div>
-        <div>@Model.Gig.Category</div>
-        <div style="font-size:20px;color:dimgray;margin-top:15px;">Contact Me</div>
-        <div>@Model.User.ContactNo</div>
-
-        <h3 style="font-weight:bold;margin-top:50px;" id="gig-rating-score-large">
-
-            @if (Model.CustomerReviews != null)
-            {
-                if (Model.CustomerReviews.Count == 1)
-                {
-                    <span>@Model.CustomerReviews.Count Review</span>
+                    if (Model.CustomerReviews.Count == 1)
+                    {
+                        <span>@Model.CustomerReviews.Count Review</span>
+                    }
+                    else
+                    {
+                        <span>@Model.CustomerReviews.Count Reviews</span>
+                    }
                 }
                 else
                 {
-                    <span>@Model.CustomerReviews.Count Reviews</span>
-                }
-            }
-            else
-            {
-                <span>0 Review</span>
-            }
-
-            @{
-
-                for (int i = 0; i < checkedStarCount; i++)
-                {
-                    <span class="fa fa-star checked"></span>
+                    <span>0 Review</span>
                 }
 
-                for (int i = 0; i < uncheckedStarCount; i++)
-                {
-                    <span class="fa fa-star"></span>
+                @{
+
+                    for (int i = 0; i < checkedStarCount; i++)
+                    {
+                        <span class="fa fa-star checked"></span>
+                    }
+
+                    for (int i = 0; i < uncheckedStarCount; i++)
+                    {
+                        <span class="fa fa-star"></span>
+                    }
+
+                    <span style="color:orange;">@ratingInText</span>
+
                 }
+            </h3>
+            <hr />
+            <div class="row">
 
-                <span style="color:orange;">@ratingInText</span>
-
-            }
-        </h3>
-        <hr />
-        <div class="row">
-
-            @if (Model.CustomerReviews != null)
-            {
-                AudioCityUser Customer;
-                string CustomerProfilePictureBase64;
-
-                foreach (CustomerReviewEntity Review in Model.CustomerReviews)
+                @if (Model.CustomerReviews != null)
                 {
-                    //get each customer profile picture
-                    Customer = await UserManager.FindByIdAsync(Review.CustomerId);
+                    AudioCityUser Customer;
+                    string CustomerProfilePictureBase64;
 
-                    //convert byte[] profile picture to base64
-                    CustomerProfilePictureBase64 = System.Convert.ToBase64String(Customer.ProfilePicture);
+                    foreach (CustomerReviewEntity Review in Model.CustomerReviews)
+                    {
+                        //get each customer profile picture
+                        Customer = await UserManager.FindByIdAsync(Review.CustomerId);
 
-                    var scoreInText = String.Format("{0:0.0}", Review.ReviewScore);
+                        //convert byte[] profile picture to base64
+                        CustomerProfilePictureBase64 = System.Convert.ToBase64String(Customer.ProfilePicture);
 
+                        var scoreInText = String.Format("{0:0.0}", Review.ReviewScore);
+
+                        <div class="col-12">
+                            <img src="data:image/*;base64,@CustomerProfilePictureBase64" style="width:34px;height:34px;border-radius:30px;" />
+                            <span style="padding-left:5px;font-weight:bold;">@Review.CustomerName</span>
+                            <span class="fa fa-star checked" style="margin-left: 5px;"></span>
+                            <span style="color:orange;">@scoreInText</span>
+                            <p class="comment-content">@Review.Comment</p>
+                            <span style="padding-left:45px;color:rgba(0,0,0,.5);">Published Since @Review.ReviewDate</span>
+                            <hr />
+                        </div>
+                    }
+
+                }
+                else
+                {
                     <div class="col-12">
-                        <img src="data:image/*;base64,@CustomerProfilePictureBase64" style="width:34px;height:34px;border-radius:30px;" />
-                        <span style="padding-left:5px;font-weight:bold;">@Review.CustomerName</span>
-                        <span class="fa fa-star checked" style="margin-left: 5px;"></span>
-                        <span style="color:orange;">@scoreInText</span>
-                        <p class="comment-content">@Review.Comment</p>
-                        <span style="padding-left:45px;color:rgba(0,0,0,.5);">Published Since @Review.ReviewDate</span>
-                        <hr />
+                        <h4 style="color:rgba(0,0,0,.5);">No Review...</h4>
                     </div>
                 }
+            </div>
 
-            }
-            else
-            {
-                <div class="col-12">
-                    <h4 style="color:rgba(0,0,0,.5);">No Review...</h4>
-                </div>
-            }
         </div>
-
-    </div>
-    <div class="col-lg-4 gig-detail-right-panel">
-        <div class="gig-detail-offer">
-            <i class="fa fa-clock-o fa-2x"></i>
-            <span style="position:relative;top:-5px;padding-left:8px">@Model.Gig.EstimatedDeliveryDays Days Delivery</span>
-            <form asp-controller="OrderPayment" asp-action="ConfirmPayment" asp-route-GigId="@Model.Gig.Id" asp-route-FromGigDetail="true">
+        <div class="col-lg-4 gig-detail-right-panel">
+            <div class="gig-detail-offer">
+                <i class="fa fa-clock-o fa-2x"></i>
+                <span style="position:relative;top:-5px;padding-left:8px">@Model.Gig.EstimatedDeliveryDays Days Delivery</span>
+                <form asp-controller="OrderPayment" asp-action="ConfirmPayment" asp-route-GigId="@Model.Gig.Id" asp-route-FromGigDetail="true">
+                    @if (UserManager.GetUserId(User) == Model.Gig.CreatedBy)
+                    {
+                        <button type="submit" class="btn btn-primary" disabled>Continue (RM @Model.Gig.Price)</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-primary">Continue (RM @Model.Gig.Price)</button>
+                    }
+                </form>
                 @if (UserManager.GetUserId(User) == Model.Gig.CreatedBy)
                 {
-                    <button type="submit" class="btn btn-primary" disabled>Continue (RM @Model.Gig.Price)</button>
+                    <a asp-controller="FreelanceList" asp-action="EditingGigDetail" asp-route-GigId="@Model.Gig.Id"><button class="btn btn-primary">Edit Gig</button></a>
+                    <br />
+                    <br />
+                    <a asp-controller="FreelanceList" asp-action="ConfirmingDeleteGigForm" asp-route-GigId="@Model.Gig.Id" style="text-decoration:none;"><button class="btn btn-danger btn-block">Delete Gig</button></a>
                 }
-                else
+
+                @if (ViewBag.ExceedMaxOrdersCount == true)
                 {
-                    <button type="submit" class="btn btn-primary">Continue (RM @Model.Gig.Price)</button>
+                    <div class="text-danger" style="margin-top:15px;">Maximum order reached. Please try again next time.</div>
+                    <div class="text-danger" style="margin-top:15px;">Maximum order accpeted by this gig: @Model.Gig.MaxOrderCount</div>
+                    <div class="text-danger" style="margin-top:15px;">Current total order by this gig: @ViewBag.GigActiveOrdersCount</div>
                 }
-            </form>
 
-            @if (ViewBag.ExceedMaxOrdersCount == true)
-            {
-                <div class="text-danger" style="margin-top:15px;">Maximum order reached. Please try again next time.</div>
-                <div class="text-danger" style="margin-top:15px;">Maximum order accpeted by this gig: @Model.Gig.MaxOrderCount</div>
-                <div class="text-danger" style="margin-top:15px;">Current total order by this gig: @ViewBag.GigActiveOrdersCount</div>
-            }
-
+            </div>
         </div>
     </div>
-</div>
+
+}

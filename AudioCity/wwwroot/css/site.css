@@ -446,7 +446,7 @@ body {
     right: 0;
     bottom: 0;
     width: 100%;
-    height: 1200px;
+    height:1500px;
 }
 
 .admin-panel {
@@ -694,4 +694,28 @@ tr.admin-table:hover {
 
 .no-result-indicator > div::after {
     margin-bottom:15px;
+}
+
+.deleted-gig {
+    position:absolute;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    margin:auto;
+    width:128px;
+    height:128px;
+    background-image:url('../static/delete.png');
+    background-size:cover;
+    background-position:center;
+}
+
+.deleted-gig-label {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 250px;
+    margin: auto;
+    width: 205px;
+    height: 128px;
 }

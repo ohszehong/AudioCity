@@ -1,0 +1,24 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+@Html.AntiForgeryToken()
+<div class="create-new-gig-container">
+    <div class="row" style="margin:0;">
+        <div class="col-12" id="create-new-gig-form-col" style="height:900px;">
+            <div class="register-form" id="form-section">
+                <form asp-action="Index" asp-route-PartialPage="_CompletedOrdersPartial">
+                    <h4 style="text-align:center;font-weight:bold;">Gig Has Been Deleted</h4>
+                    <hr />
+
+                    <p class="text-danger" style="text-align:center;">The Gig has been deleted by the Seller, unable to review the gig :(</p>
+
+                    <button type="submit" class="btn btn-primary" style="margin-bottom:15px;">Ok</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
