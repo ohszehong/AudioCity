@@ -124,8 +124,6 @@ namespace AudioCity.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                //default profile picture 
-                //byte[] ProfilePicture = System.IO.File.ReadAllBytes("wwwroot/static/profile-picture-example.jfif");
 
                 var GoogleProfilePicture = info.Principal.FindFirstValue("picture");
 

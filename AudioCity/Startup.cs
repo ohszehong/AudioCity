@@ -57,6 +57,7 @@ namespace AudioCity
                     return Task.CompletedTask;
                 };
             });
+            services.AddApplicationInsightsTelemetry(Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
 
         }
 

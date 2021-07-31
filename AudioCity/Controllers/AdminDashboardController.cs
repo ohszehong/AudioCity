@@ -16,9 +16,9 @@ namespace AudioCity.Controllers
             return View();
         }
 
-        public List<OrderEntity> GetPendingOrder()
+        public List<OrderEntity> GetOngoingOrder()
         {
-            List<OrderEntity> PO = OrderEntityHelper.GetAllPendingOrder();
+            List<OrderEntity> PO = OrderEntityHelper.GetAllOngoingOrder();
 
             return PO;
         }
@@ -30,9 +30,9 @@ namespace AudioCity.Controllers
             return CO;
         }
 
-        public PartialViewResult SearchPendingOrder(string SearchText)
+        public PartialViewResult SearchOngoingOrder(string SearchText)
         {
-            List<OrderEntity> PO = GetPendingOrder();
+            List<OrderEntity> PO = GetOngoingOrder();
             if(SearchText == null)
             {
                 return PartialView("_OrderPartial", PO);
