@@ -30,11 +30,11 @@
             <option value="Vfx">Vfx</option>
         </select>
 
-        <input type="number" class="form-control col-md-2" placeholder="Min Budget (RM)" style="margin-top:15px;margin-left:15px;" oninput="this.value = Math.abs(this.value)" name="gigMinBudget" value="@(ViewBag.SearchQueries[2] != null ? ViewBag.SearchQueries[2] : "")"/>
+        <input type="number" class="form-control col-md-2" placeholder="Min Budget (RM)" style="margin-top:15px;margin-left:15px;" oninput="validity.valid||(value='');" name="gigMinBudget" value="@(ViewBag.SearchQueries[2] != null ? ViewBag.SearchQueries[2] : "")"/>
 
-        <input type="number" class="form-control col-md-2" placeholder="Max Budget (RM)" style="margin-top:15px;margin-left:15px;" oninput="this.value = Math.abs(this.value)" name="gigMaxBudget" value="@(ViewBag.SearchQueries[3] != null ? ViewBag.SearchQueries[3] : "")"/>
+        <input type="number" class="form-control col-md-2" placeholder="Max Budget (RM)" style="margin-top:15px;margin-left:15px;" oninput="validity.valid||(value='');" name="gigMaxBudget" value="@(ViewBag.SearchQueries[3] != null ? ViewBag.SearchQueries[3] : "")"/>
 
-        <input type="number" class="form-control col-md-2" placeholder="Delivery Days e.g. 2" style="margin-top:15px;margin-left:15px;" oninput="this.value = Math.abs(this.value)" name="gigDeliveryDays" value="@(ViewBag.SearchQueries[4] != null ? ViewBag.SearchQueries[4] : "")"/>
+        <input type="number" class="form-control col-md-2" placeholder="Delivery Days e.g. 2" style="margin-top:15px;margin-left:15px;" oninput="validity.valid||(value='');" name="gigDeliveryDays" value="@(ViewBag.SearchQueries[4] != null ? ViewBag.SearchQueries[4] : "")"/>
 
     </form>
 
