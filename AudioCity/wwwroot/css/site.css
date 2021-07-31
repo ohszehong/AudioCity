@@ -370,7 +370,6 @@ body {
 
 .seller-dashboard-content-panel {
     margin:0;
-    background-color:rgba(0,0,0,.03);
 }
 
 .profile-picture {
@@ -401,11 +400,14 @@ body {
 }
 
 .seller-dashboard-navbar {
-    border-style:solid;
-    border-width:2px;
-    border-color:dimgray;
     margin-left:50px;
     margin-top:50px;
+    margin-right:100px;
+    background-color:#FE2C54;
+}
+
+.seller-dashboard-navbar a {
+    color:white!important;
 }
 
 .active-gigs-container {
@@ -577,15 +579,42 @@ tr.admin-table:hover {
 }
 
 .profile {
-    border: 1px solid black;
-    height: 110px;
-    width: 110px;
+    height: 180px;
+    width: 180px;
     border-radius: 50%;
-    box-shadow: 2px 3px 10px black;
     justify-content: center;
     margin-left: 10px;
-    position: relative;
+    position: absolute;
     display: inline-block;
+    margin-bottom:30px;
+    left:0;
+    right:0;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.profile-container {
+    justify-content: center;
+    position: relative;
+    margin-bottom: 45px;
+    margin-top:15px;
+    height:150px;
+}
+
+.profile-label {
+    height: 180px;
+    width: 180px;
+    border-radius: 50%;
+    justify-content: center;
+    margin-left: 10px;
+    position: absolute;
+    display: inline-block;
+    margin-bottom: 30px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    cursor:pointer;
 }
 
 .profile-pic {
@@ -637,4 +666,32 @@ tr.admin-table:hover {
     box-shadow: 15px 15px rgba(0,0,0,.25);
     cursor:pointer;
 }
+
+.count-indicator {
+   width:25px;
+   height:25px;
+   border-radius:25px;
+   display:inline-block;
+   background-color:white;
+   color:#FE2C54;
+   text-align:center;
+   margin-left:3px;
+}
+
+.dashboard-nav-active {
+  background-color:#1DBF73;
+}
+
+.no-result-indicator {
+    position:relative;
+    margin-left:auto;
+    margin-right:auto;
+    left:0;
+    right:0;
+    margin-top:100px;
+    text-align:center;
+}
+
+.no-result-indicator > div::after {
+    margin-bottom:15px;
 }

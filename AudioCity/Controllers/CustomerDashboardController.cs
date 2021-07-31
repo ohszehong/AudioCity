@@ -28,35 +28,35 @@ namespace AudioCity.Controllers
             ViewBag.UserId = CustomerId;
             ViewBag.PartialPage = PartialPage;
 
+            List<OrderEntity> PendingOrders = OrderEntityHelper.GetCustomerOrders(CustomerId, OrderStatus.PendingAccept.ToString());
+            List<OrderEntity> RejectedOrders = OrderEntityHelper.GetCustomerOrders(CustomerId, OrderStatus.Rejected.ToString());
+            List<OrderEntity> OngoingOrders = OrderEntityHelper.GetCustomerOrders(CustomerId, OrderStatus.Ongoing.ToString());
+            List<OrderEntity> CompletedOrders = OrderEntityHelper.GetCustomerOrders(CustomerId, OrderStatus.Completed.ToString());
+
+            ViewBag.PendingOrdersCount = PendingOrders.Count;
+            ViewBag.RejectedOrdersCount = RejectedOrders.Count;
+            ViewBag.OngoingOrdersCount = OngoingOrders.Count;
+            ViewBag.CompletedOrdersCount = CompletedOrders.Count;
+
             CloudTable Table = ConfigureAudioCityAzureTable.GetTableContainerInformation();
 
             if (PartialPage == "_PendingOrdersPartial")
             {
-                List<OrderEntity> PendingOrders = OrderEntityHelper.GetCustomerOrders(CustomerId, OrderStatus.PendingAccept.ToString());
-
-                ViewBag.PendingOrdersCount = PendingOrders.Count;
                 return View(PendingOrders);
             }
 
             else if (PartialPage == "_RejectedOrdersPartial")
             {
-                List<OrderEntity> RejectedOrders = OrderEntityHelper.GetCustomerOrders(CustomerId, OrderStatus.Rejected.ToString());
-
-                ViewBag.RejectedOrdersCount = RejectedOrders.Count;
                 return View(RejectedOrders);
             }
 
             else if (PartialPage == "_ActiveOrdersPartial")
             {
-                List<OrderEntity> OngoingOrders = OrderEntityHelper.GetCustomerOrders(CustomerId, OrderStatus.Ongoing.ToString());
-                ViewBag.OngoingOrdersCount = OngoingOrders.Count;
                 return View(OngoingOrders);
             }
 
             else if (PartialPage == "_CompletedOrdersPartial")
-            {
-                List<OrderEntity> CompletedOrders = OrderEntityHelper.GetCustomerOrders(CustomerId, OrderStatus.Completed.ToString());
-                ViewBag.CompletedOrdersCount = CompletedOrders.Count;
+            {       
                 return View(CompletedOrders);
             }
 
@@ -66,7 +66,6 @@ namespace AudioCity.Controllers
                 ViewBag.ArchivedOrdersCount = ArchivedOrders.Count;
                 return View(ArchivedOrders);
             }
-
 
             return View();
         }
