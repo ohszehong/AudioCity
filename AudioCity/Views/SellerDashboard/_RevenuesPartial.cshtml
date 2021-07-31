@@ -1,7 +1,7 @@
 ﻿@model List<AudioCity.Models.OrderEntity>
 <div style="padding-right: 100px">
     <h6> Only orders which its status is <b><i>COMPLETED</i></b> will be incuded in the calculation of revenue.</h6>
-    <table class="admin-table">
+    <table class="admin-table" id="revenue-table">
         <thead>
             <tr class="admin-table-head">
                 <th class="admin-table">Order ID</th>
@@ -50,4 +50,14 @@
 }
 <script>
     document.getElementById("total").innerHTML = total;
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script charset="utf-8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+
+<script>
+    $(document).ready(function () {
+        $('#revenue-table').DataTable();
+    });
 </script>
