@@ -1,9 +1,21 @@
 ﻿@model AudioCity.Models.GigDetailViewModel;
-
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+}
+
+@using Microsoft.AspNetCore.Identity
+@using AudioCity.Areas.Identity.Data
+
+@inject SignInManager<AudioCityUser> SignInManager
+@inject UserManager<AudioCityUser> UserManager
+
+@{
+    AudioCityUser GigSeller = await UserManager.GetUserAsync(User);
+
+    //convert byte[] profile picture to base64
+    string ProfilePictureBase64 = System.Convert.ToBase64String(GigSeller.ProfilePicture);
 }
 
 <div class="row" style="padding:70px;margin:0;padding-right:45px;">
@@ -11,7 +23,7 @@
         <h1 style="font-weight:bold;">
             @Model.Gig.Title
         </h1>
-        <img src="~/static/profile-picture-example.jfif" class="gig-detail-profile-picture-small" />
+        <img src="data:image/*;base64,@ProfilePictureBase64" class="gig-detail-profile-picture-small" />
         <div class="gig-detail-seller-name">
             @Model.Gig.ArtistName
             <span class="fa fa-star checked"></span>
@@ -81,12 +93,12 @@
             <button type="submit" class="btn btn-block btn-danger" style="margin-top:15px;">Cancel</button>
         </form>
     </div>
-<div class="col-lg-4 gig-detail-right-panel">
-    <div class="gig-detail-offer">
-        <i class="fa fa-clock-o fa-2x"></i>
-        <span style="position:relative;top:-5px;padding-left:8px;">@Model.Gig.EstimatedDeliveryDays Days Delivery</span>
-        <button class="btn btn-primary">Continue (RM @Model.Gig.Price)</button>
-     </div>
+    <div class="col-lg-4 gig-detail-right-panel">
+        <div class="gig-detail-offer">
+            <i class="fa fa-clock-o fa-2x"></i>
+            <span style="position:relative;top:-5px;padding-left:8px;">@Model.Gig.EstimatedDeliveryDays Days Delivery</span>
+            <button class="btn btn-primary">Continue (RM @Model.Gig.Price)</button>
+        </div>
     </div>
 </div>
 

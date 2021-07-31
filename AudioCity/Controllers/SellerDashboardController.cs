@@ -31,6 +31,14 @@ namespace AudioCity.Controllers
             ViewBag.UserId = _userManager.GetUserId(HttpContext.User);
             ViewBag.PartialPage = PartialPage;
 
+            //get all the orders 
+            //maybe can use cache at here 
+            List<OrderEntity> PendingOrders = OrderEntityHelper.GetSellerOrders(UserId, OrderStatus.PendingAccept.ToString());
+            List<OrderEntity> OngoingOrders = OrderEntityHelper.GetSellerOrders(UserId, OrderStatus.Ongoing.ToString());
+
+            ViewBag.PendingOrdersCount = PendingOrders.Count;
+            ViewBag.OngoingOrdersCount = OngoingOrders.Count;
+
             if (PartialPage == "_ActiveGigsPartial")
             {
                 //read gigs data created by this seller 
@@ -59,22 +67,17 @@ namespace AudioCity.Controllers
 
             else if(PartialPage == "_NewOrdersPartial")
             {
-                List<OrderEntity> PendingOrders = OrderEntityHelper.GetSellerOrders(UserId, OrderStatus.PendingAccept.ToString());
-                ViewBag.PendingOrdersCount = PendingOrders.Count;
                 return View(PendingOrders);
             }
 
             else if(PartialPage == "_OnGoingOrdersPartial")
             {
-                List<OrderEntity> OngoingOrders = OrderEntityHelper.GetSellerOrders(UserId, OrderStatus.Ongoing.ToString());
-                ViewBag.OngoingOrdersCount = OngoingOrders.Count;
                 return View(OngoingOrders);
             }
 
             else if(PartialPage == "_OrderHistoryPartial")
             {
                 List<OrderEntity> CompletedOrders = OrderEntityHelper.GetSellerOrders(UserId, OrderStatus.Completed.ToString());
-                ViewBag.CompletedOrdersCount = CompletedOrders.Count;
                 return View(CompletedOrders);
             }
 

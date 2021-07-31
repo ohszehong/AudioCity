@@ -11,13 +11,20 @@
 @inject SignInManager<AudioCityUser> SignInManager
 @inject UserManager<AudioCityUser> UserManager
 
+@{
+    AudioCityUser GigSeller = await UserManager.FindByIdAsync(Model.Gig.CreatedBy);
+
+    //convert byte[] profile picture to base64
+    string ProfilePictureBase64 = System.Convert.ToBase64String(GigSeller.ProfilePicture);
+}
+
 
 <div class="row" style="padding:70px;margin:0;padding-right:45px;">
     <div class="col-lg-8 gig-detail-left-panel">
         <h1 style="font-weight:bold;">
             @Model.Gig.Title
         </h1>
-        <img src="~/static/profile-picture-example.jfif" class="gig-detail-profile-picture-small" />
+        <img src="data:image/*;base64,@ProfilePictureBase64" class="gig-detail-profile-picture-small" />
         <div class="gig-detail-seller-name" id="gig-rating-score-small">
             @Model.Gig.ArtistName
 
@@ -96,13 +103,21 @@
 
             @if (Model.CustomerReviews != null)
             {
+                AudioCityUser Customer;
+                string CustomerProfilePictureBase64;
 
-                foreach (CustomerReviewEntity Review in Model.CustomerReviews) //later change to type CustReviewsViewModel
+                foreach (CustomerReviewEntity Review in Model.CustomerReviews)
                 {
+                    //get each customer profile picture
+                    Customer = await UserManager.FindByIdAsync(Review.CustomerId);
+
+                    //convert byte[] profile picture to base64
+                    CustomerProfilePictureBase64 = System.Convert.ToBase64String(Customer.ProfilePicture);
+
                     var scoreInText = String.Format("{0:0.0}", Review.ReviewScore);
 
                     <div class="col-12">
-                        <img src="~/static/profile-picture-example.jfif" style="width:34px;height:34px;border-radius:30px;" />
+                        <img src="data:image/*;base64,@CustomerProfilePictureBase64" style="width:34px;height:34px;border-radius:30px;" />
                         <span style="padding-left:5px;font-weight:bold;">@Review.CustomerName</span>
                         <span class="fa fa-star checked" style="margin-left: 5px;"></span>
                         <span style="color:orange;">@scoreInText</span>

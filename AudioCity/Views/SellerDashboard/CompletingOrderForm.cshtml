@@ -14,7 +14,7 @@
                     <hr />
                     <div class="form-group">
                         <label>Content (Video, Audio, or Zip for multiple files)</label>
-                        <input type="hidden" value="@ViewBag.GigId" name="GigId"/>
+                        <input type="hidden" value="@ViewBag.GigId" name="GigId" />
                         <input type="hidden" value="@ViewBag.OrderId" name="OrderId" />
                         <input type="file" accept="audio/*,video/*,.zip,.rar,.7zip" class="form-control" name="Content" />
                         @if (ViewBag.ErrorMessage != null)
@@ -24,8 +24,8 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary" style="margin-bottom:15px;">Confirm</button>
-                    <button class="btn btn-danger btn-block" onclick="window.history.back();">Cancel</button>
                 </form>
+                <a style="text-decoration:none;" asp-action="Index" asp-route-PartialPage="_OnGoingOrdersPartial"><button class="btn btn-danger btn-block">Cancel</button></a>
             </div>
         </div>
     </div>
