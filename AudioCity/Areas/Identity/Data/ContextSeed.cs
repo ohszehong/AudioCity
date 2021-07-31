@@ -10,6 +10,9 @@ namespace AudioCity.Areas.Identity.Data
     {
         public static async Task SeedAdminAsync(UserManager<AudioCityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
+            //default profile picture 
+            byte[] ProfilePicture = System.IO.File.ReadAllBytes("wwwroot/static/profile-picture-example.jfif");
+
             //Seed Default User
             var admin = new AudioCityUser
             {
@@ -20,6 +23,7 @@ namespace AudioCity.Areas.Identity.Data
                 ContactNo = "0123333333",
                 Role = "Admin",
                 EmailConfirmed = true,
+                ProfilePicture = ProfilePicture
             };
             if (userManager.Users.All(u => u.Id != admin.Id))
             {
