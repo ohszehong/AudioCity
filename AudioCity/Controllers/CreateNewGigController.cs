@@ -32,6 +32,7 @@ namespace AudioCity.Controllers
         }
 
         [HttpPost("CreateNewGig/{id}")]
+        [RequestSizeLimit(100_000_000)]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(GigViewModel GigViewModel)
         {
@@ -95,6 +96,7 @@ namespace AudioCity.Controllers
 
         }
 
+        [RequestSizeLimit(100_000_000)]
         public async  Task<IActionResult> PreviewGig(Gig NewGig)
         {
             CloudBlobContainer Container = ConfigureAudioCityAzureBlob.GetBlobContainerInformation();
@@ -112,6 +114,7 @@ namespace AudioCity.Controllers
         }
 
         [HttpPost]
+        [RequestSizeLimit(100_000_000)]
         public IActionResult CreateGig(Gig NewGig )
         {
 

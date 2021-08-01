@@ -17,6 +17,7 @@ using Azure.Storage.Blobs;
 using Azure.Core.Extensions;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace AudioCity
 {
@@ -58,7 +59,10 @@ namespace AudioCity
                 };
             });
             services.AddApplicationInsightsTelemetry(Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
-
+            services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = 100000000;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
