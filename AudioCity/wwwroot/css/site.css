@@ -516,6 +516,7 @@ tr.admin-table:hover {
     word-break: break-word;
     font-family: 'Roboto', sans-serif;
     font-size:18px;
+    white-space:pre-line;
 }
 
 .checked {
