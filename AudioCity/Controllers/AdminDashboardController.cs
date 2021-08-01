@@ -11,7 +11,7 @@ namespace AudioCity.Controllers
     public class AdminDashboardController : Controller
     {
         [Authorize(Roles = "Admin")]
-        public IActionResult Index()
+        public IActionResult Index(string PartialPage = "_ActiveGigsPartial")
         {
             return View();
         }
