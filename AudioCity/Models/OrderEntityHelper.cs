@@ -89,6 +89,19 @@ namespace AudioCity.Models
                     continuationToken = TableQueryResult.ContinuationToken;
                 } while (continuationToken != null);
 
+                if(CustomerOrders != null)
+                {
+                    if (OrderStatus == "PendingAccept" || OrderStatus == "Ongoing")
+                    {
+                        //sort list ascendingly based on datetime 
+                        CustomerOrders.Sort((x, y) => x.OrderDate.CompareTo(y.OrderDate));
+                    }
+                    else if (OrderStatus == "Completed" || OrderStatus == "Archived" || OrderStatus == "Rejected")
+                    {
+                        CustomerOrders.Sort((x, y) => y.OrderDate.CompareTo(x.OrderDate));
+                    }
+                }
+                
                 return CustomerOrders;
             }
             catch (Exception Ex)
@@ -139,6 +152,19 @@ namespace AudioCity.Models
 
                     continuationToken = TableQueryResult.ContinuationToken;
                 } while (continuationToken != null);
+
+                if (SellerOrders != null)
+                {
+                    if (OrderStatus == "PendingAccept" || OrderStatus == "Ongoing")
+                    {
+                        //sort list ascendingly based on datetime 
+                        SellerOrders.Sort((x, y) => x.OrderDate.CompareTo(y.OrderDate));
+                    }
+                    else if (OrderStatus == "Completed" || OrderStatus == "Archived" || OrderStatus == "Rejected")
+                    {
+                        SellerOrders.Sort((x, y) => y.OrderDate.CompareTo(x.OrderDate));
+                    }
+                }
 
                 return SellerOrders;
             }

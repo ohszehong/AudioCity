@@ -35,12 +35,12 @@ namespace AudioCity.Controllers
             List<OrderEntity> PO = GetOngoingOrder();
             if(SearchText == null)
             {
-                return PartialView("_OrderPartial", PO);
+                return PartialView("_OngoingOrderPartial", PO);
             } else {
                 var result = PO.Where(a => a.PartitionKey.ToLower().Contains(SearchText) || a.RowKey.ToLower().Contains(SearchText) || 
                 a.OrderCompleteDate.ToString().Contains(SearchText) || a.CustomerName.ToLower().Contains(SearchText) || 
                 a.SellerName.ToLower().Contains(SearchText) || a.OrderPayment.ToString().Contains(SearchText)).ToList();
-                return PartialView("_OrderPartial", result);
+                return PartialView("_OngoingOrderPartial", result);
             }
         }
 
