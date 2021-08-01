@@ -58,11 +58,7 @@ namespace AudioCity
                     return Task.CompletedTask;
                 };
             });
-            services.AddApplicationInsightsTelemetry(Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
-            services.Configure<FormOptions>(options =>
-            {
-                options.MultipartBodyLengthLimit = 100000000;
-            });
+            services.AddApplicationInsightsTelemetry(Configuration["APPINSIGHTS_CONNECTIONSTRING"]);      
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
