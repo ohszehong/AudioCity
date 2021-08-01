@@ -69,6 +69,7 @@
 
 <script>
     $(document).ready(function () {
-        $('#revenue-table').DataTable();
+        $.noConflict();
+        var table = $('#revenue-table').DataTable();
     });
 </script>
